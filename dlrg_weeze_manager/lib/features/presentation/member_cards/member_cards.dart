@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MemberCards extends StatelessWidget {
-  const MemberCards({Key? key}) : super(key: key);
+import 'widgets/create_card.dart';
+import 'widgets/excel_import_list.dart';
 
+class MemberCards extends ConsumerStatefulWidget {
+  const MemberCards({super.key});
+
+  
+
+  @override
+  ConsumerState<MemberCards> createState() => _MemberCardsState();
+}
+
+class _MemberCardsState extends ConsumerState<MemberCards> {
   @override
   Widget build(BuildContext context) {
     final appTheme = Theme.of(context);
@@ -13,86 +24,14 @@ class MemberCards extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Flexible(
+          const Flexible(
             fit: FlexFit.loose,
-            child: SizedBox(
-              height: 500,
-              width: 200,
-              child: ListView(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                children: const [
-                  TextField(),
-                  ListTile(
-                    leading: Icon(Icons.check_box),
-                  ),
-                ],
-              ),
-            ),
+            child: ExcelImportList(),
           ),
-          Flexible(
+          SizedBox(height: 50, width: deviceSize.width * 0.2,),
+          const Flexible(
             fit: FlexFit.loose,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Card(
-                  child: Column(
-                    children: [
-                      Container(
-                        child: Placeholder(),
-                      ),
-                      Row(
-                        children: [
-                          TextButton.icon(
-                            onPressed: null,
-                            label: const Text("Drucken"),
-                            icon: const Icon(Icons.print),
-                          ),
-                          TextButton.icon(
-                            onPressed: null,
-                            label: const Text("NFC"),
-                            icon: const Icon(Icons.nfc),
-                          ),
-                          TextButton.icon(
-                            onPressed: null,
-                            label: const Text("Nächster"),
-                            icon: const Icon(Icons.navigate_next),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Card(
-                  child: Column(
-                    children: [
-                      Container(
-                        child: Placeholder(),
-                      ),
-                      Row(
-                        children: [
-                          TextButton.icon(
-                            onPressed: null,
-                            label: const Text("Drucken"),
-                            icon: const Icon(Icons.print),
-                          ),
-                          TextButton.icon(
-                            onPressed: null,
-                            label: const Text("NFC"),
-                            icon: const Icon(Icons.nfc),
-                          ),
-                          TextButton.icon(
-                            onPressed: null,
-                            label: const Text("Nächster"),
-                            icon: const Icon(Icons.navigate_next),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+            child: CreateCard(),
           ),
         ],
       ),

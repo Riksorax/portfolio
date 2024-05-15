@@ -1,18 +1,20 @@
-import 'package:dlrg_weeze_manager/features/presentation/member_cards/member_cards.dart';
-import 'package:dlrg_weeze_manager/features/presentation/menu/menu_drawer.dart';
-import 'package:dlrg_weeze_manager/features/shared/presentation/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'presentation/member_cards/member_cards.dart';
+import 'presentation/menu/menu_drawer.dart';
+import 'shared/presentation/theme/theme.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final appTheme = Theme.of(context);
 
     return MaterialApp(

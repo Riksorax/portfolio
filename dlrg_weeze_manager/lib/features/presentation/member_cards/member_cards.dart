@@ -6,7 +6,7 @@ import 'widgets/excel_import_list.dart';
 
 class MemberCards extends ConsumerStatefulWidget {
   const MemberCards({super.key});
-
+  static const routeName = "/member-cards";
   
 
   @override

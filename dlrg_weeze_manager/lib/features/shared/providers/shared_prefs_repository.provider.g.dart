@@ -306,5 +306,289 @@ class _GetThemeModeSharedPrefsProviderElement
   @override
   String get themeMode => (origin as GetThemeModeSharedPrefsProvider).themeMode;
 }
+
+String _$savePrintTemplateSharedPrefsHash() =>
+    r'd5cb53d9f7335254dbeae16099d9b479cc5f0bf1';
+
+/// See also [savePrintTemplateSharedPrefs].
+@ProviderFor(savePrintTemplateSharedPrefs)
+const savePrintTemplateSharedPrefsProvider =
+    SavePrintTemplateSharedPrefsFamily();
+
+/// See also [savePrintTemplateSharedPrefs].
+class SavePrintTemplateSharedPrefsFamily extends Family<AsyncValue<bool>> {
+  /// See also [savePrintTemplateSharedPrefs].
+  const SavePrintTemplateSharedPrefsFamily();
+
+  /// See also [savePrintTemplateSharedPrefs].
+  SavePrintTemplateSharedPrefsProvider call(
+    String printTemplate,
+    String printPath,
+  ) {
+    return SavePrintTemplateSharedPrefsProvider(
+      printTemplate,
+      printPath,
+    );
+  }
+
+  @override
+  SavePrintTemplateSharedPrefsProvider getProviderOverride(
+    covariant SavePrintTemplateSharedPrefsProvider provider,
+  ) {
+    return call(
+      provider.printTemplate,
+      provider.printPath,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'savePrintTemplateSharedPrefsProvider';
+}
+
+/// See also [savePrintTemplateSharedPrefs].
+class SavePrintTemplateSharedPrefsProvider
+    extends AutoDisposeFutureProvider<bool> {
+  /// See also [savePrintTemplateSharedPrefs].
+  SavePrintTemplateSharedPrefsProvider(
+    String printTemplate,
+    String printPath,
+  ) : this._internal(
+          (ref) => savePrintTemplateSharedPrefs(
+            ref as SavePrintTemplateSharedPrefsRef,
+            printTemplate,
+            printPath,
+          ),
+          from: savePrintTemplateSharedPrefsProvider,
+          name: r'savePrintTemplateSharedPrefsProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$savePrintTemplateSharedPrefsHash,
+          dependencies: SavePrintTemplateSharedPrefsFamily._dependencies,
+          allTransitiveDependencies:
+              SavePrintTemplateSharedPrefsFamily._allTransitiveDependencies,
+          printTemplate: printTemplate,
+          printPath: printPath,
+        );
+
+  SavePrintTemplateSharedPrefsProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.printTemplate,
+    required this.printPath,
+  }) : super.internal();
+
+  final String printTemplate;
+  final String printPath;
+
+  @override
+  Override overrideWith(
+    FutureOr<bool> Function(SavePrintTemplateSharedPrefsRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: SavePrintTemplateSharedPrefsProvider._internal(
+        (ref) => create(ref as SavePrintTemplateSharedPrefsRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        printTemplate: printTemplate,
+        printPath: printPath,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<bool> createElement() {
+    return _SavePrintTemplateSharedPrefsProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is SavePrintTemplateSharedPrefsProvider &&
+        other.printTemplate == printTemplate &&
+        other.printPath == printPath;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, printTemplate.hashCode);
+    hash = _SystemHash.combine(hash, printPath.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin SavePrintTemplateSharedPrefsRef on AutoDisposeFutureProviderRef<bool> {
+  /// The parameter `printTemplate` of this provider.
+  String get printTemplate;
+
+  /// The parameter `printPath` of this provider.
+  String get printPath;
+}
+
+class _SavePrintTemplateSharedPrefsProviderElement
+    extends AutoDisposeFutureProviderElement<bool>
+    with SavePrintTemplateSharedPrefsRef {
+  _SavePrintTemplateSharedPrefsProviderElement(super.provider);
+
+  @override
+  String get printTemplate =>
+      (origin as SavePrintTemplateSharedPrefsProvider).printTemplate;
+  @override
+  String get printPath =>
+      (origin as SavePrintTemplateSharedPrefsProvider).printPath;
+}
+
+String _$getPrintTemplateSharedPrefsHash() =>
+    r'd910792a174d39a32a266a03e7dac3f1154a33d5';
+
+/// See also [getPrintTemplateSharedPrefs].
+@ProviderFor(getPrintTemplateSharedPrefs)
+const getPrintTemplateSharedPrefsProvider = GetPrintTemplateSharedPrefsFamily();
+
+/// See also [getPrintTemplateSharedPrefs].
+class GetPrintTemplateSharedPrefsFamily extends Family<AsyncValue<String?>> {
+  /// See also [getPrintTemplateSharedPrefs].
+  const GetPrintTemplateSharedPrefsFamily();
+
+  /// See also [getPrintTemplateSharedPrefs].
+  GetPrintTemplateSharedPrefsProvider call(
+    String printTemplate,
+  ) {
+    return GetPrintTemplateSharedPrefsProvider(
+      printTemplate,
+    );
+  }
+
+  @override
+  GetPrintTemplateSharedPrefsProvider getProviderOverride(
+    covariant GetPrintTemplateSharedPrefsProvider provider,
+  ) {
+    return call(
+      provider.printTemplate,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'getPrintTemplateSharedPrefsProvider';
+}
+
+/// See also [getPrintTemplateSharedPrefs].
+class GetPrintTemplateSharedPrefsProvider
+    extends AutoDisposeFutureProvider<String?> {
+  /// See also [getPrintTemplateSharedPrefs].
+  GetPrintTemplateSharedPrefsProvider(
+    String printTemplate,
+  ) : this._internal(
+          (ref) => getPrintTemplateSharedPrefs(
+            ref as GetPrintTemplateSharedPrefsRef,
+            printTemplate,
+          ),
+          from: getPrintTemplateSharedPrefsProvider,
+          name: r'getPrintTemplateSharedPrefsProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getPrintTemplateSharedPrefsHash,
+          dependencies: GetPrintTemplateSharedPrefsFamily._dependencies,
+          allTransitiveDependencies:
+              GetPrintTemplateSharedPrefsFamily._allTransitiveDependencies,
+          printTemplate: printTemplate,
+        );
+
+  GetPrintTemplateSharedPrefsProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.printTemplate,
+  }) : super.internal();
+
+  final String printTemplate;
+
+  @override
+  Override overrideWith(
+    FutureOr<String?> Function(GetPrintTemplateSharedPrefsRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: GetPrintTemplateSharedPrefsProvider._internal(
+        (ref) => create(ref as GetPrintTemplateSharedPrefsRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        printTemplate: printTemplate,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<String?> createElement() {
+    return _GetPrintTemplateSharedPrefsProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetPrintTemplateSharedPrefsProvider &&
+        other.printTemplate == printTemplate;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, printTemplate.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin GetPrintTemplateSharedPrefsRef on AutoDisposeFutureProviderRef<String?> {
+  /// The parameter `printTemplate` of this provider.
+  String get printTemplate;
+}
+
+class _GetPrintTemplateSharedPrefsProviderElement
+    extends AutoDisposeFutureProviderElement<String?>
+    with GetPrintTemplateSharedPrefsRef {
+  _GetPrintTemplateSharedPrefsProviderElement(super.provider);
+
+  @override
+  String get printTemplate =>
+      (origin as GetPrintTemplateSharedPrefsProvider).printTemplate;
+}
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

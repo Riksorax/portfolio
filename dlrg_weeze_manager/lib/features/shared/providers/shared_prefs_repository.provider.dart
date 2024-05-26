@@ -14,3 +14,13 @@ Future<bool> saveThemeModeSharedPrefs(
 Future<String?> getThemeModeSharedPrefs(
         GetThemeModeSharedPrefsRef ref, String themeMode) =>
     SharedPrefsRepositories().getString(themeMode);
+
+@riverpod
+Future<bool> savePrintTemplateSharedPrefs(
+    SavePrintTemplateSharedPrefsRef ref, String printTemplate, String printPath) =>
+    SharedPrefsRepositories().setString(printTemplate, printPath);
+
+@riverpod
+Future<String?> getPrintTemplateSharedPrefs(
+    GetPrintTemplateSharedPrefsRef ref, String printTemplate) =>
+    SharedPrefsRepositories().getString(printTemplate);

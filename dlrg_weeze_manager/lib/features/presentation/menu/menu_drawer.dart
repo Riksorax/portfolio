@@ -5,17 +5,19 @@ import 'widgets/general/general_menu.dart';
 import 'widgets/indoor_pool/indoor_pool_menu.dart';
 
 class MenuDrawer extends StatelessWidget {
-  const MenuDrawer({super.key});
+
+  final Function(int) onItemTapped;
+  const MenuDrawer({super.key, required this.onItemTapped});
 
   @override
   Widget build(BuildContext context) {
-    return const NavigationDrawer(
+    return NavigationDrawer(
       children: [
-        CardsMenu(),
+        CardsMenu(onItemTapped: onItemTapped),
         Divider(),
         IndoorPoolMenu(),
         Divider(),
-        GeneralMenu(),
+        GeneralMenu(onItemTapped: onItemTapped),
       ],
     );
   }

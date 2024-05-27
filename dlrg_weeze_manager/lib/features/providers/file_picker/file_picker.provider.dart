@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'file_picker.provider.g.dart';
@@ -6,12 +9,64 @@ part 'file_picker.provider.g.dart';
 @riverpod
 class FilePickerNotifier extends _$FilePickerNotifier {
   @override
-  Future<String?> build() async {
+  String build() => "";
+
+  Future<String?> getFilePicker() async {
     var picker = await FilePicker.platform.pickFiles();
     String? file = "";
     if (picker != null) {
       file = picker.paths[0];
     }
     return file;
+  }
+
+  void saveFileDocx() async {
+    var outputFile = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['docx'],
+    );
+
+    if (outputFile != null && outputFile.files.single.path != null) {
+      String selectedFilePath = outputFile.files.single.path!;
+      File selectedFile = File(selectedFilePath);
+      List<int> fileBytes = await selectedFile.readAsBytes();
+      String fileName = outputFile.names[0]!.split('.')[0];
+
+      var dlrgDirectory = await createTemplateDirDocx();
+
+      String newFilePath = '${dlrgDirectory.path}\\${fileName}Template.docx';
+      File newFile = File(newFilePath);
+
+      if (!dlrgDirectory.existsSync()) {
+        dlrgDirectory.createSync();
+      }
+
+      await newFile.writeAsBytes(fileBytes);
+
+      print('Datei gespeichert: $newFilePath');
+    } else {
+      print('Keine Datei ausgewählt');
+    }
+  }
+
+  Future<Directory> createTemplateDirDocx() async {
+    var dlrgDirectory = await loadMemberCardTemplate();
+
+    await dlrgDirectory.exists().then(
+      (isThere) async {
+        if (!isThere) {
+          await dlrgDirectory.create(recursive: true);
+        }
+      },
+    );
+
+    return dlrgDirectory;
+  }
+
+  Future<Directory> loadMemberCardTemplate() async {
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String appDocPath = appDocDir.path;
+    var dlrgDirectory = Directory('$appDocPath\\DLRG\\AusweisTemplate');
+    return dlrgDirectory;
   }
 }

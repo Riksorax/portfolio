@@ -21,7 +21,7 @@ class _ExcelImportListState extends ConsumerState<ExcelImportList> {
     final excelImport = ref.watch(excelImportNotifierProvider);
 
     void getFilePath() async {
-      var filePath = await ref.watch(filePickerNotifierProvider.future);
+      var filePath = await ref.watch(filePickerNotifierProvider.notifier).getFilePicker();
       if (filePath!.isNotEmpty) {
         ref.read(excelImportNotifierProvider.notifier).getExcelImport(filePath);
       }

@@ -1,27 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'file_picker.provider.dart';
+part of 'docx_template.notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$filePickerNotifierHash() =>
-    r'5a0a649188aa8078dd98113e82024fd55843afa2';
+String _$loadDocxTemplateHash() => r'e103a79faa117be1a6d2a06d67d8ad5dd2beb959';
 
-/// See also [FilePickerNotifier].
-@ProviderFor(FilePickerNotifier)
-final filePickerNotifierProvider =
-    AutoDisposeNotifierProvider<FilePickerNotifier, String>.internal(
-  FilePickerNotifier.new,
-  name: r'filePickerNotifierProvider',
+/// See also [LoadDocxTemplate].
+@ProviderFor(LoadDocxTemplate)
+final loadDocxTemplateProvider =
+    AutoDisposeNotifierProvider<LoadDocxTemplate, String>.internal(
+  LoadDocxTemplate.new,
+  name: r'loadDocxTemplateProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$filePickerNotifierHash,
+      : _$loadDocxTemplateHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$FilePickerNotifier = AutoDisposeNotifier<String>;
+typedef _$LoadDocxTemplate = AutoDisposeNotifier<String>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

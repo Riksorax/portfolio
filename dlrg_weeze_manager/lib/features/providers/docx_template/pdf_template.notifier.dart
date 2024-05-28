@@ -31,6 +31,7 @@ class PdfTemplate extends _$PdfTemplate {
     if (!file) {
       return null;
     }
+    state = completePath;
     return completePath;
   }
 }

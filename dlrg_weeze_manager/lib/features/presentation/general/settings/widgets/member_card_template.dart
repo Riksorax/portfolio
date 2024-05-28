@@ -18,6 +18,7 @@ class _MemberCardTemplateState extends ConsumerState<MemberCardTemplate> {
   Widget build(BuildContext context) {
     final appTheme = Theme.of(context);
     final deviceSize = MediaQuery.of(context).size;
+    ref.watch(pdfTemplateProvider);
     return FutureBuilder<String?>(
         future: ref.read(pdfTemplateProvider.notifier).loadPdfTemplate(),
         builder: (context, snapshot) {
@@ -35,7 +36,6 @@ class _MemberCardTemplateState extends ConsumerState<MemberCardTemplate> {
                 OutlinedButton(
                   onPressed: () async {
                     ref.read(filePickerNotifierProvider.notifier).saveFilePdf();
-                    ref.watch(filePickerNotifierProvider);
                   },
                   child: const Text("PDF Ausweis Template wählen"),
                 ),

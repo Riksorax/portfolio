@@ -11,8 +11,11 @@ class FilePickerNotifier extends _$FilePickerNotifier {
   @override
   String build() => "";
 
-  Future<String?> getFilePicker() async {
-    var picker = await FilePicker.platform.pickFiles();
+  Future<String?> getExcelFilePicker() async {
+    var picker = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['xlsx'],
+    );
     String? file = "";
     if (picker != null) {
       file = picker.paths[0];

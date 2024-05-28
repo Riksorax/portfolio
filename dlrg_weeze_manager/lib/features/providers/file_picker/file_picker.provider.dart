@@ -30,11 +30,8 @@ class FilePickerNotifier extends _$FilePickerNotifier {
       String selectedFilePath = outputFile.files.single.path!;
       File selectedFile = File(selectedFilePath);
       List<int> fileBytes = await selectedFile.readAsBytes();
-      String fileName = outputFile.names[0]!.split('.')[0];
-
       var dlrgDirectory = await createTemplateDir();
-
-      String newFilePath = '${dlrgDirectory.path}\\${fileName}Template.pdf';
+      String newFilePath = '${dlrgDirectory.path}\\MitgliedsausweisTemplate.pdf';
       File newFile = File(newFilePath);
 
       if (!dlrgDirectory.existsSync()) {
@@ -43,7 +40,7 @@ class FilePickerNotifier extends _$FilePickerNotifier {
 
       await newFile.writeAsBytes(fileBytes);
 
-      print('Datei gespeichert: $newFilePath');
+      state = newFilePath;
     } else {
       print('Keine Datei ausgewählt');
     }

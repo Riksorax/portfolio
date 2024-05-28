@@ -19,4 +19,18 @@ class PdfTemplate extends _$PdfTemplate {
     final pdfFile = PdfDocument(inputBytes: File("${path.path}\\MitgliedsausweisTemplate.pdf").readAsBytesSync());
     final PdfPage page = pdfFile.pages[0];
   }
+
+  Future<String?> loadPdfTemplate() async{
+    var path = await ref.read(filePickerNotifierProvider.notifier).loadMemberCardTemplate();
+    var pathExists = await path.exists();
+    if (!pathExists) {
+      return null;
+    }
+    var completePath = '${path.path}\\MitgliedsausweisTemplate.pdf';
+    var file = await File(completePath).exists();
+    if (!file) {
+      return null;
+    }
+    return completePath;
+  }
 }

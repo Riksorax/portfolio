@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 
 import '../../../../providers/docx_template/pdf_template.notifier.dart';
@@ -37,9 +38,9 @@ class _MemberCardTemplateState extends ConsumerState<MemberCardTemplate> {
             },
             child: const Text("PDF Ausweis Template wählen"),
           ),
-          /*Card(
-            child: SfPdfViewer.asset("assets/templates/MitgliedsausweisTemplate.pdf"),
-          ),*/
+          Card(
+            child: SfPdfViewer.asset("assets/templates/MitgliedsausweisTemplate.pdf", ),
+          ),
         ],
       ),
     );

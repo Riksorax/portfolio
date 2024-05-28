@@ -20,10 +20,10 @@ class FilePickerNotifier extends _$FilePickerNotifier {
     return file;
   }
 
-  void saveFileDocx() async {
+  void saveFilePdf() async {
     var outputFile = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['docx'],
+      allowedExtensions: ['pdf'],
     );
 
     if (outputFile != null && outputFile.files.single.path != null) {
@@ -32,9 +32,9 @@ class FilePickerNotifier extends _$FilePickerNotifier {
       List<int> fileBytes = await selectedFile.readAsBytes();
       String fileName = outputFile.names[0]!.split('.')[0];
 
-      var dlrgDirectory = await createTemplateDirDocx();
+      var dlrgDirectory = await createTemplateDir();
 
-      String newFilePath = '${dlrgDirectory.path}\\${fileName}Template.docx';
+      String newFilePath = '${dlrgDirectory.path}\\${fileName}Template.pdf';
       File newFile = File(newFilePath);
 
       if (!dlrgDirectory.existsSync()) {
@@ -49,7 +49,7 @@ class FilePickerNotifier extends _$FilePickerNotifier {
     }
   }
 
-  Future<Directory> createTemplateDirDocx() async {
+  Future<Directory> createTemplateDir() async {
     var dlrgDirectory = await loadMemberCardTemplate();
 
     await dlrgDirectory.exists().then(

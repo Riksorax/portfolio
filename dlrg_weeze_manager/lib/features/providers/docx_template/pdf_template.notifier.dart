@@ -1,12 +1,9 @@
 import 'dart:io';
 import 'dart:ui';
-
 import 'package:excel/excel.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
-
 import '../file_picker/file_picker.provider.dart';
-
 part 'pdf_template.notifier.g.dart';
 
 @riverpod
@@ -29,20 +26,14 @@ class PdfTemplate extends _$PdfTemplate {
     if (!file) {
       return null;
     }
-    //state = completePath;
     return completePath;
   }
 
   Future<void> fillPlaceholderPDF() async {
-    // Laden Sie die PDF-Datei
     var docxTemplate = await loadPdfTemplate();
     var pdfPath = File(docxTemplate!).readAsBytesSync();
-    final PdfDocument document =
-    PdfDocument(inputBytes: pdfPath);
-
+    final PdfDocument document = PdfDocument(inputBytes: pdfPath);
     PdfTextExtractor extractor = PdfTextExtractor(document);
-    var result = extractor.extractText();
-    String modifiedText = result;
     final PdfPage page = document.pages[0];
 
     // Platzhalter und deren Werte definieren
@@ -52,40 +43,32 @@ class PdfTemplate extends _$PdfTemplate {
       '{{NUMBER}}': '848798798',
     };
 
-    placeholders.forEach((placeholder, value) {
-      modifiedText = modifiedText.replaceAll(placeholder, value);
-    });
+    // Originaltext löschen, indem ein weißes Rechteck über den Text gezeichnet wird
+    final PdfGraphics graphics = page.graphics;
+    final Rect rect = Rect.fromLTWH(
+        0, 0, page.getClientSize().width - 110, page.getClientSize().height);
+    graphics.drawRectangle(
+      brush: PdfSolidBrush(PdfColor(255, 255, 255)),
+      bounds: rect,
+    );
+    // Textlinien extrahieren und modifizieren
+    for (var line in extractor.extractTextLines()) {
+      var bounds = line.bounds;
+      var fontName = line.fontName;
+      var text = line.text;
 
-    if (result != modifiedText) {
-      // Originaltext löschen, indem ein weißes Rechteck über den Text gezeichnet wird
-      final PdfGraphics graphics = page.graphics;
-      final Rect rect = Rect.fromLTWH(0, 0, page.getClientSize().width - 110, page.getClientSize().height);
-      graphics.drawRectangle(
-        brush: PdfSolidBrush(PdfColor(255, 255, 255)),
-        bounds: rect,
+      // Modifizierten Text hinzufügen
+      graphics.drawString(
+        text,
+        PdfStandardFont(PdfFontFamily.helvetica, 6),
+        bounds: Rect.fromLTWH(bounds.left, bounds.top , page.getClientSize().width, page.getClientSize().height),
+        brush: PdfSolidBrush(PdfColor(117, 117, 117)),
       );
-
-      for (var value in extractor.extractTextLines()) {
-        var fontSize = value.fontSize;
-        var bounds = value.bounds;
-        var fontName = value.fontName;
-        var text = value.text;
-
-        // Modifizierten Text hinzufügen
-        graphics.drawString(
-          text,
-          PdfStandardFont(getFontFamily(fontName), fontSize),
-          bounds: bounds,
-          brush: PdfSolidBrush(PdfColor(204, 204, 204))
-        );
-      }
-
     }
 
     // Speichern Sie die Datei auf dem Gerät
-    const String outputPath = 'C:\\Users\\Frank\\Documents\\DLRG\\AusweisTemplate\\MitgliedsausweisTemplateCopy.pdf';
-
-    // Neue PDF-Datei speichern
+    const String outputPath =
+        'C:\\Users\\Frank\\Documents\\DLRG\\AusweisTemplate\\MitgliedsausweisTemplateCopy.pdf';
     final List<int> newBytes = document.saveSync();
     final File newFile = File(outputPath);
     await newFile.writeAsBytes(newBytes);
@@ -96,12 +79,12 @@ class PdfTemplate extends _$PdfTemplate {
 
   PdfFontFamily getFontFamily(String fontName) {
     for (var family in PdfFontFamily.values) {
-      if (family.toString().split('.').last.toLowerCase() == fontName.toLowerCase()) {
+      if (family.toString().split('.').last.toLowerCase() ==
+          fontName.toLowerCase()) {
         return family;
       }
     }
     // Fallback zu einer Standardschriftart, falls nicht gefunden
     return PdfFontFamily.helvetica;
   }
-
 }

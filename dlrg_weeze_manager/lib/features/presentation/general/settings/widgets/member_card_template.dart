@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 import '../../../../providers/docx_template/pdf_template.notifier.dart';
 import '../../../../providers/file_picker/file_picker.provider.dart';
@@ -36,7 +39,7 @@ class _MemberCardTemplateState extends ConsumerState<MemberCardTemplate> {
                   ref.read(filePickerNotifierProvider.notifier).saveFilePdf();
                 },
                 child: const Text("PDF Ausweis Template wählen"),
-              ),/*
+              ),
               snapshot.hasData
                   ? Card(
                       margin: const EdgeInsets.only(top: 18),
@@ -50,7 +53,7 @@ class _MemberCardTemplateState extends ConsumerState<MemberCardTemplate> {
                         ),
                       ),
                     )
-                  :*/ Container(
+                  : Container(
                       margin: const EdgeInsets.only(top: 25),
                       child: const Text("Es ist kein Template vorhanden"),
                     ),

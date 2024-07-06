@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 import '../../../providers/docx_template/pdf_template.notifier.dart';
+import '../../../providers/update_member/update_member.notifier.dart';
 
 class CreateCard extends ConsumerStatefulWidget {
   const CreateCard({super.key});
@@ -18,6 +19,7 @@ class _CreateCardState extends ConsumerState<CreateCard> {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     final pdfPath = ref.watch(pdfTemplateProvider);
+    ref.watch(updateMemberNotifierProvider);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -29,7 +31,7 @@ class _CreateCardState extends ConsumerState<CreateCard> {
                 width: deviceSize.width * .3,
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 child: pdfPath.isNotEmpty
-                    ? PDFView(filePath: pdfPath,)
+                    ? SfPdfViewer.file(File(pdfPath))
                     : const Placeholder(),
               ),
               Row(
@@ -46,8 +48,7 @@ class _CreateCardState extends ConsumerState<CreateCard> {
                   ),
                   TextButton.icon(
                     onPressed: () {
-                      //ref.read(htmlTemplateProvider.notifier).loadHtmlTemplate();
-                      ref.read(pdfTemplateProvider.notifier).fillPlaceholderPDF();
+                      ref.watch(updateMemberNotifierProvider.notifier).updateMemberCardDone();
                     },
                     label: const Text("Nächster"),
                     icon: const Icon(Icons.navigate_next),

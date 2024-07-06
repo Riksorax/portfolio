@@ -39,11 +39,11 @@ dependencies:
   riverpod_lint: ^2.3.12
   excel: ^4.0.3
   nfc_manager: ^3.5.0
-  file_picker: ^8.0.3
+  file_picker: ^8.0.6
   path_provider: ^2.1.3
-  printing: ^5.12.0
-  flutter_pdfview: ^1.3.2
-  syncfusion_flutter_pdf: ^26.1.38
+  printing: ^5.13.1
+  syncfusion_flutter_pdfviewer: ^26.1.40
+  syncfusion_flutter_pdf: ^26.1.40
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -52,7 +52,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^2.4.10
+  build_runner: ^2.4.11
   custom_lint: ^0.6.4
 
   # The "flutter_lints" package below contains a set of recommended lints to

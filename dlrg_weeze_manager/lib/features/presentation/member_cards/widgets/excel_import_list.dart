@@ -6,7 +6,7 @@ import '../../../providers/excel_import/excel_import.notifier.dart';
 import '../../../providers/file_picker/file_picker.provider.dart';
 
 class ExcelImportList extends ConsumerStatefulWidget {
-  const ExcelImportList({Key? key}) : super(key: key);
+  const ExcelImportList({super.key});
 
   @override
   ConsumerState<ExcelImportList> createState() => _ExcelImportListState();
@@ -20,10 +20,18 @@ class _ExcelImportListState extends ConsumerState<ExcelImportList> {
 
     final excelImport = ref.watch(excelImportNotifierProvider);
 
+    Future.delayed(const Duration(seconds: 5), () {
+      // deleayed code here
+      ref.watch(excelImportNotifierProvider);
+    });
+
+
     void getFilePath() async {
-      var filePath = await ref.watch(filePickerNotifierProvider.notifier).getExcelFilePicker();
+      var filePath = await ref
+          .watch(filePickerNotifierProvider.notifier)
+          .getExcelFilePicker();
       if (filePath!.isNotEmpty) {
-        ref.read(excelImportNotifierProvider.notifier).getExcelImport(filePath);
+        ref.watch(excelImportNotifierProvider.notifier).getExcelImport(filePath);
       }
     }
 
@@ -39,9 +47,7 @@ class _ExcelImportListState extends ConsumerState<ExcelImportList> {
       child: Column(
         children: [
           OutlinedButton(
-            onPressed: () {
-              getFilePath();
-            },
+            onPressed: getFilePath,
             child: const Text("Excel Datei wählen"),
           ),
           Expanded(
@@ -53,11 +59,13 @@ class _ExcelImportListState extends ConsumerState<ExcelImportList> {
                 if (excelImport.isEmpty) {
                   return const CircularProgressIndicator();
                 }
-                var firstName = excelImport[index]["fistName"];
-                var lastName = excelImport[index]["lastName"];
-                var birthDay = DateTime.parse(excelImport[index]["birthDay"]);
-                var memberNo = excelImport[index]["memberNo"];
-                var memberCardDone = excelImport[index]["memberCardDone"];
+                var firstName = excelImport[index]["{{FIRSTNAME}}"].toString();
+                var lastName = excelImport[index]["{{LASTNAME}}"].toString();
+                var birthDay = DateTime.parse(
+                    excelImport[index]["{{BIRTHDAY}}"].toString());
+                var memberNo = excelImport[index]["{{NUMBER}}"].toString();
+                var memberCardDone =
+                    excelImport[index]["{{MEMBERCARDDONE}}"] as bool;
                 return ListTile(
                   leading: Checkbox(
                     value: memberCardDone,

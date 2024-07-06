@@ -26,7 +26,7 @@ class FilePickerNotifier extends _$FilePickerNotifier {
   void saveFilePdf() async {
     var outputFile = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['html'],
+      allowedExtensions: ['pdf'],
     );
 
     if (outputFile != null && outputFile.files.single.path != null) {

@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'dart:ui';
-import 'package:excel/excel.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import '../file_picker/file_picker.provider.dart';
+import '../update_member/update_member.notifier.dart';
 part 'pdf_template.notifier.g.dart';
 
 @riverpod
@@ -30,51 +30,62 @@ class PdfTemplate extends _$PdfTemplate {
   }
 
   Future<void> fillPlaceholderPDF() async {
-    var docxTemplate = await loadPdfTemplate();
-    var pdfPath = File(docxTemplate!).readAsBytesSync();
-    final PdfDocument document = PdfDocument(inputBytes: pdfPath);
-    PdfTextExtractor extractor = PdfTextExtractor(document);
-    final PdfPage page = document.pages[0];
-
     // Platzhalter und deren Werte definieren
-    final placeholders = {
-      '{{FIRSTNAME}}': 'Frank',
-      '{{LASTNAME}}': 'Speulmans',
-      '{{NUMBER}}': '848798798',
-    };
+    final placeholders = ref.read(updateMemberNotifierProvider);
 
-    // Originaltext löschen, indem ein weißes Rechteck über den Text gezeichnet wird
-    final PdfGraphics graphics = page.graphics;
-    final Rect rect = Rect.fromLTWH(
-        0, 0, page.getClientSize().width - 110, page.getClientSize().height);
-    graphics.drawRectangle(
-      brush: PdfSolidBrush(PdfColor(255, 255, 255)),
-      bounds: rect,
-    );
-    // Textlinien extrahieren und modifizieren
-    for (var line in extractor.extractTextLines()) {
-      var bounds = line.bounds;
-      var fontName = line.fontName;
-      var text = line.text;
+    if (placeholders.isNotEmpty) {
+      var docxTemplate = await loadPdfTemplate();
+      var pdfPath = File(docxTemplate!).readAsBytesSync();
+      final PdfDocument document = PdfDocument(inputBytes: pdfPath);
+      PdfTextExtractor extractor = PdfTextExtractor(document);
+      final PdfPage page = document.pages[0];
 
-      // Modifizierten Text hinzufügen
-      graphics.drawString(
-        text,
-        PdfStandardFont(PdfFontFamily.helvetica, 6),
-        bounds: Rect.fromLTWH(bounds.left, bounds.top , page.getClientSize().width, page.getClientSize().height),
-        brush: PdfSolidBrush(PdfColor(117, 117, 117)),
+      // Originaltext löschen, indem ein weißes Rechteck über den Text gezeichnet wird
+      final PdfGraphics graphics = page.graphics;
+      final Rect rect = Rect.fromLTWH(
+          0, 0, page.getClientSize().width - 110, page.getClientSize().height);
+      graphics.drawRectangle(
+        brush: PdfSolidBrush(PdfColor(255, 255, 255)),
+        bounds: rect,
       );
+      // Textlinien extrahieren und modifizieren
+      for (var line in extractor.extractTextLines()) {
+        var bounds = line.bounds;
+        var fontName = line.fontName;
+
+        for (var key in placeholders.keys) {
+          line.text = line.text.replaceAll(key.toUpperCase(), placeholders[key]!.toString());
+        }
+        var text = line.text;
+
+        if(text == "e"){
+          bounds = Rect.fromLTWH(bounds.left + 25, bounds.top , page.getClientSize().width, page.getClientSize().height);
+        }
+
+        // Modifizierten Text hinzufügen
+        graphics.drawString(
+          text,
+          PdfStandardFont(getFontFamily(fontName), 6),
+          bounds: Rect.fromLTWH(bounds.left, bounds.top -5 , page.getClientSize().width, page.getClientSize().height),
+          brush: PdfSolidBrush(PdfColor(117, 117, 117)),
+        );
+      }
+
+      // Speichern Sie die Datei auf dem Gerät
+      const String outputPath =
+          'C:\\Users\\Frank\\Documents\\DLRG\\AusweisTemplate\\MitgliedsausweisTemplateCopy.pdf';
+      final List<int> newBytes = document.saveSync();
+      final File newFile = File(outputPath);
+      await newFile.writeAsBytes(newBytes);
+
+      // PDF-Dokument schließen
+      document.dispose();
+      state = outputPath;
+      print("PDF ready");
     }
-
-    // Speichern Sie die Datei auf dem Gerät
-    const String outputPath =
-        'C:\\Users\\Frank\\Documents\\DLRG\\AusweisTemplate\\MitgliedsausweisTemplateCopy.pdf';
-    final List<int> newBytes = document.saveSync();
-    final File newFile = File(outputPath);
-    await newFile.writeAsBytes(newBytes);
-
-    // PDF-Dokument schließen
-    document.dispose();
+    else {
+      print("Keine Placeholder");
+    }
   }
 
   PdfFontFamily getFontFamily(String fontName) {

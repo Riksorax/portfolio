@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:excel/excel.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../docx_template/pdf_template.notifier.dart';
+import '../pdf_template/pdf_template.notifier.dart';
 import '../update_member/update_member.notifier.dart';
 
 part 'excel_import.notifier.g.dart';

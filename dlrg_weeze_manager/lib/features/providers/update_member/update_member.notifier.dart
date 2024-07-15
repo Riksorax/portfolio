@@ -1,7 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../docx_template/pdf_template.notifier.dart';
 import '../excel_import/excel_import.notifier.dart';
+import '../pdf_template/pdf_template.notifier.dart';
 
 part 'update_member.notifier.g.dart';
 

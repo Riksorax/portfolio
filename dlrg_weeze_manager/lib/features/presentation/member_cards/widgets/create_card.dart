@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
-import '../../../providers/docx_template/pdf_template.notifier.dart';
+import '../../../providers/pdf_template/pdf_template.notifier.dart';
 import '../../../providers/update_member/update_member.notifier.dart';
 
 class CreateCard extends ConsumerStatefulWidget {

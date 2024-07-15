@@ -38,7 +38,7 @@ class _ExcelImportListState extends ConsumerState<ExcelImportList> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
-        color: appTheme.colorScheme.surfaceVariant,
+        color: appTheme.colorScheme.surfaceContainerHighest,
       ),
       padding: const EdgeInsets.all(12),
       margin: const EdgeInsets.only(left: 24),

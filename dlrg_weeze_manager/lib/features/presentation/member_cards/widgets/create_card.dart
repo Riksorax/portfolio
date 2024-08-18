@@ -6,6 +6,7 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 import '../../../providers/pdf_template/pdf_template.notifier.dart';
 import '../../../providers/update_member/update_member.notifier.dart';
+import '../../../providers/usb/usb_write.notifier.dart';
 
 class CreateCard extends ConsumerStatefulWidget {
   const CreateCard({super.key});
@@ -42,7 +43,7 @@ class _CreateCardState extends ConsumerState<CreateCard> {
                     icon: const Icon(Icons.print),
                   ),
                   TextButton.icon(
-                    onPressed: null,
+                    onPressed: ref.read(usbWriteNotifierProvider.notifier).getSerialPort,
                     label: const Text("NFC"),
                     icon: const Icon(Icons.nfc),
                   ),

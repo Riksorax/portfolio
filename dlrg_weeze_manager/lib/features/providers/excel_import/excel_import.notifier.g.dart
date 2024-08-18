@@ -7,7 +7,7 @@ part of 'excel_import.notifier.dart';
 // **************************************************************************
 
 String _$excelImportNotifierHash() =>
-    r'bb9631873091ade1ee58ed8cc942261129336f28';
+    r'5aec0346caefb27a0e95c35aa4319b054c36c7c6';
 
 /// See also [ExcelImportNotifier].
 @ProviderFor(ExcelImportNotifier)

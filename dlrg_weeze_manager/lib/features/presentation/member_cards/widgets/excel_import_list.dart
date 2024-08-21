@@ -38,12 +38,11 @@ class _ExcelImportListState extends ConsumerState<ExcelImportList> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
-        color: appTheme.colorScheme.surfaceContainerHighest,
+        color: appTheme.colorScheme.surfaceContainerHighest
       ),
       padding: const EdgeInsets.all(12),
-      margin: const EdgeInsets.only(left: 24),
-      height: deviceSize.height * .78,
-      width: deviceSize.width * .2,
+      height: deviceSize.height * 0.75,
+      width: deviceSize.width * 0.8,
       child: Column(
         children: [
           OutlinedButton(

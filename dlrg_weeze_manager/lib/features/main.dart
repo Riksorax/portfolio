@@ -68,9 +68,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ],
       ),
       backgroundColor: MaterialTheme.lightScheme().surfaceContainerLow,
+      drawer: MenuDrawer(onItemTapped: setCurrentPage),
       body: Row(
         children: [
-          MenuDrawer(onItemTapped: setCurrentPage),
           Expanded(
             child: IndexedStack(
               index: currentPage,

@@ -14,9 +14,9 @@ class MenuDrawer extends StatelessWidget {
     return NavigationDrawer(
       children: [
         CardsMenu(onItemTapped: onItemTapped),
-        Divider(),
-        IndoorPoolMenu(),
-        Divider(),
+        const Divider(),
+        const IndoorPoolMenu(),
+        const Divider(),
         GeneralMenu(onItemTapped: onItemTapped),
       ],
     );

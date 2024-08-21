@@ -31,7 +31,7 @@ class _MemberCardTemplateState extends ConsumerState<MemberCardTemplate> {
           padding: const EdgeInsets.all(12),
           margin: const EdgeInsets.only(left: 24),
           height: deviceSize.height * .47,
-          width: deviceSize.width * .35,
+          width: deviceSize.width * .8,
           child: Column(
             children: [
               OutlinedButton(

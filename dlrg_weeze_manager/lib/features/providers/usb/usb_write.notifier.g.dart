@@ -1,27 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'update_member.notifier.dart';
+part of 'usb_write.notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$updateMemberNotifierHash() =>
-    r'49ae734101c71678235d06848381bc69694a9fd9';
+String _$usbWriteNotifierHash() => r'4d1080dd6c0b75b28500b613cfd811c56e041fcc';
 
-/// See also [UpdateMemberNotifier].
-@ProviderFor(UpdateMemberNotifier)
-final updateMemberNotifierProvider = AutoDisposeNotifierProvider<
-    UpdateMemberNotifier, Map<String, Object>>.internal(
-  UpdateMemberNotifier.new,
-  name: r'updateMemberNotifierProvider',
+/// See also [UsbWriteNotifier].
+@ProviderFor(UsbWriteNotifier)
+final usbWriteNotifierProvider =
+    AutoDisposeNotifierProvider<UsbWriteNotifier, String>.internal(
+  UsbWriteNotifier.new,
+  name: r'usbWriteNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$updateMemberNotifierHash,
+      : _$usbWriteNotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$UpdateMemberNotifier = AutoDisposeNotifier<Map<String, Object>>;
+typedef _$UsbWriteNotifier = AutoDisposeNotifier<String>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

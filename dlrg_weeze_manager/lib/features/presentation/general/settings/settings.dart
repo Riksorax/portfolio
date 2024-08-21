@@ -13,6 +13,6 @@ class _SettingsState extends ConsumerState<Settings> {
   @override
   Widget build(BuildContext context) {
 
-    return MemberCardTemplate();
+    return const MemberCardTemplate();
   }
 }

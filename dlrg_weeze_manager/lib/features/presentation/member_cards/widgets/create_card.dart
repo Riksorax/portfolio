@@ -28,8 +28,8 @@ class _CreateCardState extends ConsumerState<CreateCard> {
           child: Column(
             children: [
               Container(
-                height: deviceSize.width * .165,
-                width: deviceSize.width * .3,
+                height: deviceSize.height * .262,
+                width: deviceSize.width * .8,
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 child: pdfPath.isNotEmpty
                     ? SfPdfViewer.file(File(pdfPath))

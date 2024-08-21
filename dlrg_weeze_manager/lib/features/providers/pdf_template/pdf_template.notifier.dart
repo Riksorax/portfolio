@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import '../file_picker/file_picker.provider.dart';
@@ -72,8 +73,10 @@ class PdfTemplate extends _$PdfTemplate {
       }
 
       // Speichern Sie die Datei auf dem Gerät
-      const String outputPath =
-          'C:\\Users\\Frank\\Documents\\DLRG\\AusweisTemplate\\MitgliedsausweisTemplateCopy.pdf';
+      final directory = await getTemporaryDirectory();
+
+      String outputPath =
+          '${directory.path}/MitgliedsausweisTemplateCopy.pdf';
       final List<int> newBytes = document.saveSync();
       final File newFile = File(outputPath);
       await newFile.writeAsBytes(newBytes);

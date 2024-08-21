@@ -21,7 +21,7 @@ class _MemberCardsState extends ConsumerState<MemberCards> {
 
     return Container(
       margin: const EdgeInsets.all(24),
-      child: Row(
+      child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           const Flexible(

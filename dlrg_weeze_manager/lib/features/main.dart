@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'presentation/general/settings/settings.dart';
 import 'presentation/member_cards/member_cards.dart';
 import 'presentation/menu/menu_drawer.dart';
+import 'providers/nfc/nfc_write.notifier.dart';
 import 'shared/presentation/theme/theme.dart';
 import 'shared/providers/current_page.provider.dart';
 

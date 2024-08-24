@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
+import '../../../providers/excel_import/excel_import.notifier.dart';
 import '../../../providers/nfc/nfc_write.notifier.dart';
 import '../../../providers/pdf_template/pdf_template.notifier.dart';
 import '../../../providers/update_member/update_member.notifier.dart';
@@ -21,6 +22,8 @@ class _CreateCardState extends ConsumerState<CreateCard> {
     final deviceSize = MediaQuery.of(context).size;
     final pdfPath = ref.watch(pdfTemplateProvider);
     final nfcWriteState = ref.watch(nfcWriteNotifierProvider).value;
+    final excelImport = ref.watch(excelImportNotifierProvider);
+
     ref.watch(updateMemberNotifierProvider);
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -44,7 +47,7 @@ class _CreateCardState extends ConsumerState<CreateCard> {
                     icon: const Icon(Icons.print),
                   ),
                   TextButton.icon(
-                    onPressed: () {
+                    onPressed:excelImport.isNotEmpty ? () {
                       ref
                           .read(nfcWriteNotifierProvider.notifier)
                           .writeNfcCardAsync();
@@ -54,16 +57,18 @@ class _CreateCardState extends ConsumerState<CreateCard> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text(message)),
                       );
-                    },
+                    } : null,
                     label: const Text("NFC"),
                     icon: const Icon(Icons.nfc),
                   ),
                   TextButton.icon(
-                    onPressed: () {
-                      ref
-                          .watch(updateMemberNotifierProvider.notifier)
-                          .updateMemberCardDone();
-                    },
+                    onPressed: nfcWriteState!
+                        ? () {
+                            ref
+                                .watch(updateMemberNotifierProvider.notifier)
+                                .updateMemberCardDone();
+                          }
+                        : null,
                     label: const Text("Nächster"),
                     icon: const Icon(Icons.navigate_next),
                   ),

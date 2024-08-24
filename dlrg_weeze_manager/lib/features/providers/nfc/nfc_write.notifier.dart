@@ -21,7 +21,7 @@ class NfcWriteNotifier extends _$NfcWriteNotifier {
           // NDEF (NFC Data Exchange Format) verwenden
           var ndef = Ndef.from(tag);
           if (ndef == null || !ndef.isWritable) {
-            NfcManager.instance
+            await NfcManager.instance
                 .stopSession(errorMessage: 'Tag ist nicht beschreibbar');
             return;
           }
@@ -36,15 +36,18 @@ class NfcWriteNotifier extends _$NfcWriteNotifier {
           List<NdefRecord> records = [];
 
           if (placeholders.containsKey('{{FIRSTNAME}}')) {
-            records.add(NdefRecord.createText('First Name: ${placeholders['{{FIRSTNAME}}']}'));
+            records.add(NdefRecord.createText(
+                'First Name: ${placeholders['{{FIRSTNAME}}']}'));
           }
 
           if (placeholders.containsKey('{{NUMBER}}')) {
-            records.add(NdefRecord.createText('Mitgliedsnummer: ${placeholders['{{NUMBER}}']}'));
+            records.add(NdefRecord.createText(
+                'Mitgliedsnummer: ${placeholders['{{NUMBER}}']}'));
           }
 
           if (records.isEmpty) {
-            NfcManager.instance.stopSession(errorMessage: 'Keine gültigen Daten zum Schreiben gefunden');
+            await NfcManager.instance.stopSession(
+                errorMessage: 'Keine gültigen Daten zum Schreiben gefunden');
             state = const AsyncValue.data(false);
             return;
           }
@@ -54,10 +57,14 @@ class NfcWriteNotifier extends _$NfcWriteNotifier {
 
           try {
             await ndef.write(message);
+
+            //TODO Schreibschutz erst mal aus, abklären oder den angemacht werden soll
+            //await ndef.writeLock();
+
             state = const AsyncValue.data(true);
-            NfcManager.instance.stopSession();
+            await NfcManager.instance.stopSession(alertMessage: 'Erfolgreich!');
           } catch (e) {
-            NfcManager.instance.stopSession(errorMessage: e.toString());
+            await NfcManager.instance.stopSession(errorMessage: e.toString());
           }
         });
       } catch (e) {
@@ -66,5 +73,9 @@ class NfcWriteNotifier extends _$NfcWriteNotifier {
     } else {
       state = const AsyncValue.data(false);
     }
+  }
+
+  void resteState(){
+    state = const AsyncValue.data(false);
   }
 }

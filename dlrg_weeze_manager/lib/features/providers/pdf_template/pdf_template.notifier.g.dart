@@ -6,7 +6,7 @@ part of 'pdf_template.notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$pdfTemplateHash() => r'6f85f8321ccc90480df834bbca92b473b21092fd';
+String _$pdfTemplateHash() => r'9942c05dcff62b079a604878c88039d994a7f5c9';
 
 /// See also [PdfTemplate].
 @ProviderFor(PdfTemplate)

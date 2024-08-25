@@ -1,26 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'nfc_write.notifier.dart';
+part of 'print_pdf_template.notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$nfcWriteNotifierHash() => r'3707aa527ceeaa2111b1962097dcb85adea85e64';
+String _$printPdfTemplateNotifierHash() =>
+    r'423ee4e2c7cfe069aa97ac747e37bf4faa42cdb6';
 
-/// See also [NfcWriteNotifier].
-@ProviderFor(NfcWriteNotifier)
-final nfcWriteNotifierProvider =
-    AutoDisposeAsyncNotifierProvider<NfcWriteNotifier, bool>.internal(
-  NfcWriteNotifier.new,
-  name: r'nfcWriteNotifierProvider',
+/// See also [PrintPdfTemplateNotifier].
+@ProviderFor(PrintPdfTemplateNotifier)
+final printPdfTemplateNotifierProvider =
+    AutoDisposeNotifierProvider<PrintPdfTemplateNotifier, bool>.internal(
+  PrintPdfTemplateNotifier.new,
+  name: r'printPdfTemplateNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$nfcWriteNotifierHash,
+      : _$printPdfTemplateNotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$NfcWriteNotifier = AutoDisposeAsyncNotifier<bool>;
+typedef _$PrintPdfTemplateNotifier = AutoDisposeNotifier<bool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

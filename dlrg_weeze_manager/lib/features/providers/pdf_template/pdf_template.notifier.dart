@@ -44,7 +44,7 @@ class PdfTemplate extends _$PdfTemplate {
       // Originaltext löschen, indem ein weißes Rechteck über den Text gezeichnet wird
       final PdfGraphics graphics = page.graphics;
       final Rect rect = Rect.fromLTWH(
-          0, 0, page.getClientSize().width - 110, page.getClientSize().height);
+          0, 0, page.getClientSize().width - 100, page.getClientSize().height - 20);
       graphics.drawRectangle(
         brush: PdfSolidBrush(PdfColor(255, 255, 255)),
         bounds: rect,

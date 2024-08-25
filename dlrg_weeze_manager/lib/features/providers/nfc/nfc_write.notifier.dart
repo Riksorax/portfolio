@@ -8,7 +8,7 @@ part 'nfc_write.notifier.g.dart';
 @riverpod
 class NfcWriteNotifier extends _$NfcWriteNotifier {
   @override
-  FutureOr<bool> build() async {
+  bool build() {
     return false;
   }
 
@@ -28,7 +28,7 @@ class NfcWriteNotifier extends _$NfcWriteNotifier {
 
           final placeholders = ref.read(updateMemberNotifierProvider);
           if (placeholders.isEmpty) {
-            state = const AsyncValue.data(false);
+            state = false;
             return;
           }
 
@@ -48,7 +48,7 @@ class NfcWriteNotifier extends _$NfcWriteNotifier {
           if (records.isEmpty) {
             await NfcManager.instance.stopSession(
                 errorMessage: 'Keine gültigen Daten zum Schreiben gefunden');
-            state = const AsyncValue.data(false);
+            state = false;
             return;
           }
 
@@ -61,21 +61,21 @@ class NfcWriteNotifier extends _$NfcWriteNotifier {
             //TODO Schreibschutz erst mal aus, abklären oder den angemacht werden soll
             //await ndef.writeLock();
 
-            state = const AsyncValue.data(true);
+            state = true;
             await NfcManager.instance.stopSession(alertMessage: 'Erfolgreich!');
           } catch (e) {
             await NfcManager.instance.stopSession(errorMessage: e.toString());
           }
         });
       } catch (e) {
-        state = const AsyncValue.data(false);
+        state = false;
       }
     } else {
-      state = const AsyncValue.data(false);
+      state = false;
     }
   }
 
   void resteState(){
-    state = const AsyncValue.data(false);
+    state = false;
   }
 }

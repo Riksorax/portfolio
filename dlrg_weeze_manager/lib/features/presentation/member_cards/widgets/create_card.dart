@@ -22,7 +22,7 @@ class _CreateCardState extends ConsumerState<CreateCard> {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     final pdfPath = ref.watch(pdfTemplateProvider);
-    final nfcWriteState = ref.watch(nfcWriteNotifierProvider).value;
+    final nfcWriteState = ref.watch(nfcWriteNotifierProvider);
     final excelImport = ref.watch(excelImportNotifierProvider);
     final printState = ref.watch(printPdfTemplateNotifierProvider);
     ref.watch(updateMemberNotifierProvider);
@@ -49,6 +49,7 @@ class _CreateCardState extends ConsumerState<CreateCard> {
                             ref
                                 .read(printPdfTemplateNotifierProvider.notifier)
                                 .printPdf();
+
                           }
                         : null,
                     label: const Text("Drucken"),
@@ -60,7 +61,7 @@ class _CreateCardState extends ConsumerState<CreateCard> {
                             ref
                                 .read(nfcWriteNotifierProvider.notifier)
                                 .writeNfcCardAsync();
-                            String message = nfcWriteState!
+                            String message = nfcWriteState
                                 ? 'Erfolgreich beschrieben!'
                                 : 'Bitte eine neue Karte auflegen';
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -72,7 +73,7 @@ class _CreateCardState extends ConsumerState<CreateCard> {
                     icon: const Icon(Icons.nfc),
                   ),
                   TextButton.icon(
-                    onPressed: nfcWriteState!
+                    onPressed: nfcWriteState
                         ? () {
                             ref
                                 .watch(updateMemberNotifierProvider.notifier)

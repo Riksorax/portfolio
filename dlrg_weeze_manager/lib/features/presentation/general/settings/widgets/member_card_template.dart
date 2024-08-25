@@ -21,7 +21,7 @@ class _MemberCardTemplateState extends ConsumerState<MemberCardTemplate> {
     final deviceSize = MediaQuery.of(context).size;
     ref.watch(pdfTemplateProvider);
     return FutureBuilder<String?>(
-      future: ref.read(pdfTemplateProvider.notifier).loadPdfTemplate(),
+      future: ref.watch(pdfTemplateProvider.notifier).loadPdfTemplate(),
       builder: (context, snapshot) {
         return Container(
           decoration: BoxDecoration(

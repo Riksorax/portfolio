@@ -7,7 +7,7 @@ part of 'print_pdf_template.notifier.dart';
 // **************************************************************************
 
 String _$printPdfTemplateNotifierHash() =>
-    r'423ee4e2c7cfe069aa97ac747e37bf4faa42cdb6';
+    r'dc66aa08fa15bbc7c94b47c6388f0f4ed0724c80';
 
 /// See also [PrintPdfTemplateNotifier].
 @ProviderFor(PrintPdfTemplateNotifier)

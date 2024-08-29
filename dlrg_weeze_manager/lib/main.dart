@@ -1,12 +1,14 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'presentation/general/settings/settings.dart';
-import 'presentation/member_cards/member_cards.dart';
-import 'presentation/menu/menu_drawer.dart';
-import 'providers/nfc/nfc_write.notifier.dart';
-import 'shared/presentation/theme/theme.dart';
-import 'shared/providers/current_page.provider.dart';
+import 'features/presentation/general/settings/settings.dart';
+import 'features/presentation/member_cards/member_cards.dart';
+import 'features/presentation/menu/menu_drawer.dart';
+import 'features/providers/nfc/nfc_write.notifier.dart';
+import 'features/shared/presentation/theme/theme.dart';
+import 'features/shared/providers/current_page.provider.dart';
+import 'firebase_options.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -42,6 +44,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final currentPage = ref.watch(currentPageNotifierProvider);
+
+    Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
     void setCurrentPage(int index){
       ref.read(currentPageNotifierProvider.notifier).setCurrentPage(index);

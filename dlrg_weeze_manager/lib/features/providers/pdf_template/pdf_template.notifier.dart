@@ -34,7 +34,7 @@ class PdfTemplate extends _$PdfTemplate {
     // Platzhalter und deren Werte definieren
     final placeholders = ref.read(updateMemberNotifierProvider);
 
-    if (placeholders.isNotEmpty) {
+    if (placeholders.memberNumber.isNotEmpty) {
       var docxTemplate = await loadPdfTemplate();
       var pdfPath = File(docxTemplate!).readAsBytesSync();
       final PdfDocument document = PdfDocument(inputBytes: pdfPath);
@@ -54,9 +54,9 @@ class PdfTemplate extends _$PdfTemplate {
         var bounds = line.bounds;
         var fontName = line.fontName;
 
-        for (var key in placeholders.keys) {
-          line.text = line.text.replaceAll(key.toUpperCase(), placeholders[key]!.toString());
-        }
+        line.text = line.text.replaceAll("{{FIRSTNAME}}", placeholders.firstname);
+        line.text = line.text.replaceAll("{{LASTNAME}}", placeholders.lastname);
+        line.text = line.text.replaceAll("{{NUMBER}}", placeholders.memberNumber);
         var text = line.text;
 
         if(text == "e"){

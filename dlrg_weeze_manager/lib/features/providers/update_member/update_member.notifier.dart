@@ -1,5 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../shared/data/models/member.dart';
+import '../../shared/providers/firebase_repository.provider.dart';
 import '../excel_import/excel_import.notifier.dart';
 import '../nfc/nfc_write.notifier.dart';
 import '../pdf_template/pdf_template.notifier.dart';
@@ -10,12 +12,19 @@ part 'update_member.notifier.g.dart';
 @riverpod
 class UpdateMemberNotifier extends _$UpdateMemberNotifier {
   @override
-  Map<String, Object> build() => {};
+  Member build() => Member(
+        "",
+        "",
+        "",
+        "",
+        false,
+        false,
+        DateTime.now(),
+      );
 
-  void getNextMember(List<Map<String, Object>> memberList) {
+  void getNextMember(List<Member> memberList) {
     for (var element in memberList) {
-      var memberDone = element["{{MEMBERCARDDONE}}"] as bool;
-      if (!memberDone) {
+      if (!element.memberCardDone) {
         state = element;
         break;
       }
@@ -23,15 +32,15 @@ class UpdateMemberNotifier extends _$UpdateMemberNotifier {
   }
 
   void updateMemberCardDone() {
-    if (state.isNotEmpty) {
-      var memberDone = state["{{MEMBERCARDDONE}}"] as bool;
-      if (!memberDone) {
-        state["{{MEMBERCARDDONE}}"] = true;
+      if (!state.memberCardDone) {
+        state.memberCardDone = true;
         ref.read(excelImportNotifierProvider.notifier).updateMemberList(state);
+        ref.read(SaveMemberRepoProvider(state));
       }
-    }
     final nextMemberList = ref.read(excelImportNotifierProvider);
-    ref.read(updateMemberNotifierProvider.notifier).getNextMember(nextMemberList);
+    ref
+        .read(updateMemberNotifierProvider.notifier)
+        .getNextMember(nextMemberList);
     ref.read(pdfTemplateProvider.notifier).fillPlaceholderPDF();
     ref.read(nfcWriteNotifierProvider.notifier).resteState();
     ref.read(printPdfTemplateNotifierProvider.notifier).resteState();

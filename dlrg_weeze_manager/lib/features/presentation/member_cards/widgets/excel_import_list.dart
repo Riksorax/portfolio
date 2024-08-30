@@ -58,13 +58,13 @@ class _ExcelImportListState extends ConsumerState<ExcelImportList> {
                 if (excelImport.isEmpty) {
                   return const CircularProgressIndicator();
                 }
-                var firstName = excelImport[index]["{{FIRSTNAME}}"].toString();
-                var lastName = excelImport[index]["{{LASTNAME}}"].toString();
+                var firstName = excelImport[index].firstname.toString();
+                var lastName = excelImport[index].lastname.toString();
                 var birthDay = DateTime.parse(
-                    excelImport[index]["{{BIRTHDAY}}"].toString());
-                var memberNo = excelImport[index]["{{NUMBER}}"].toString();
+                    excelImport[index].birthday.toString());
+                var memberNo = excelImport[index].memberNumber.toString();
                 var memberCardDone =
-                    excelImport[index]["{{MEMBERCARDDONE}}"] as bool;
+                    excelImport[index].memberCardDone;
                 return ListTile(
                   leading: Checkbox(
                     value: memberCardDone,

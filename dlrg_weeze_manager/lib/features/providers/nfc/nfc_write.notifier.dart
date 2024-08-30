@@ -26,8 +26,8 @@ class NfcWriteNotifier extends _$NfcWriteNotifier {
             return;
           }
 
-          final placeholders = ref.read(updateMemberNotifierProvider);
-          if (placeholders.isEmpty) {
+          final member = ref.read(updateMemberNotifierProvider);
+          if (member.memberNumber.isEmpty) {
             state = false;
             return;
           }
@@ -35,15 +35,8 @@ class NfcWriteNotifier extends _$NfcWriteNotifier {
           // Nur spezifische Schlüssel wie FIRSTNAME und LASTNAME speichern
           List<NdefRecord> records = [];
 
-          if (placeholders.containsKey('{{FIRSTNAME}}')) {
             records.add(NdefRecord.createText(
-                'First Name: ${placeholders['{{FIRSTNAME}}']}'));
-          }
-
-          if (placeholders.containsKey('{{NUMBER}}')) {
-            records.add(NdefRecord.createText(
-                'Mitgliedsnummer: ${placeholders['{{NUMBER}}']}'));
-          }
+                member.memberNumber));
 
           if (records.isEmpty) {
             await NfcManager.instance.stopSession(

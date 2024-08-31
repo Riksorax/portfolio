@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../shared/data/models/member.dart';
 import '../../shared/providers/firebase_repository.provider.dart';
 import '../excel_import/excel_import.notifier.dart';
+import '../nfc/nfc_read.notifier.dart';
 import '../nfc/nfc_write.notifier.dart';
 import '../pdf_template/pdf_template.notifier.dart';
 import '../printer/print_pdf_template.notifier.dart';
@@ -42,7 +43,7 @@ class UpdateMemberNotifier extends _$UpdateMemberNotifier {
         .read(updateMemberNotifierProvider.notifier)
         .getNextMember(nextMemberList);
     ref.read(pdfTemplateProvider.notifier).fillPlaceholderPDF();
-    ref.read(nfcWriteNotifierProvider.notifier).resteState();
+    ref.read(nfcReadNotifierProvider.notifier).resteState();
     ref.read(printPdfTemplateNotifierProvider.notifier).resteState();
   }
 }

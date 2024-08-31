@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'features/presentation/general/settings/settings.dart';
+import 'features/presentation/indoor_pool/entrance.dart';
 import 'features/presentation/member_cards/member_cards.dart';
 import 'features/presentation/menu/menu_drawer.dart';
 import 'features/providers/nfc/nfc_write.notifier.dart';
 import 'features/shared/presentation/theme/theme.dart';
+import 'features/shared/presentation/widgets/base_scaffold.dart';
 import 'features/shared/providers/current_page.provider.dart';
 import 'firebase_options.dart';
 
@@ -17,10 +19,11 @@ void main() {
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appTheme = Theme.of(context);
+    Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -28,7 +31,21 @@ class MyApp extends ConsumerWidget {
       theme: const MaterialTheme(TextTheme()).light(),
       darkTheme: const MaterialTheme(TextTheme()).dark(),
       themeMode: ThemeMode.light,
-      home: HomeScreen(),
+      initialRoute: '/',
+      onGenerateRoute: (settings) {
+        switch (settings.name) {
+          case '/':
+            return MaterialPageRoute(builder: (context) => const HomeScreen());
+          case '/member_cards':
+            return MaterialPageRoute(builder: (context) => const MemberCards());
+          case '/entrance':
+            return MaterialPageRoute(builder: (context) => const Entrance());
+          case '/settings':
+            return MaterialPageRoute(builder: (context) => const Settings());
+          default:
+            return MaterialPageRoute(builder: (context) => const HomeScreen());
+        }
+      },
     );
   }
 }
@@ -43,52 +60,23 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final currentPage = ref.watch(currentPageNotifierProvider);
-
-    Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-
-    void setCurrentPage(int index){
-      ref.read(currentPageNotifierProvider.notifier).setCurrentPage(index);
-    }
-
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-            );
-          },
+    return BaseScaffold(
+        title: 'DLRG Weeze Manager',
+        body: const Center(
+          child: Text(
+              "TODO: \nEine Dashbord erstllen. \nWähle eine Seite aus dem Menü aus."),
         ),
-        title: const Text('DLRG Weeze Manager'),
-        actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 24),
-            child: const Icon(Icons.account_circle),
-          ),
-        ],
-      ),
-      backgroundColor: MaterialTheme.lightScheme().surfaceContainerLow,
-      drawer: MenuDrawer(onItemTapped: setCurrentPage),
-      body: Row(
-        children: [
-          Expanded(
-            child: IndexedStack(
-              index: currentPage,
-              children: const [
-                MemberCards(),
-                Settings(),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+        onItemTapped: _onItemTapped);
+  }
+
+  void _onItemTapped(int index) {
+    switch (index) {
+      case 0:
+        Navigator.pushNamed(context, '/member_cards');
+      case 1:
+        Navigator.pushNamed(context, '/entrance');
+      case 2:
+        Navigator.pushNamed(context, '/settings');
+    }
   }
 }

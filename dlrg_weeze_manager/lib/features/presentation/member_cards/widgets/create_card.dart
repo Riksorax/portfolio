@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 import '../../../providers/excel_import/excel_import.notifier.dart';
+import '../../../providers/nfc/nfc_read.notifier.dart';
 import '../../../providers/nfc/nfc_write.notifier.dart';
 import '../../../providers/pdf_template/pdf_template.notifier.dart';
 import '../../../providers/printer/print_pdf_template.notifier.dart';
@@ -22,7 +23,7 @@ class _CreateCardState extends ConsumerState<CreateCard> {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     final pdfPath = ref.watch(pdfTemplateProvider);
-    final nfcWriteState = ref.watch(nfcWriteNotifierProvider);
+    final nfcWriteState = ref.watch(nfcReadNotifierProvider);
     final excelImport = ref.watch(excelImportNotifierProvider);
     final printState = ref.watch(printPdfTemplateNotifierProvider);
     ref.watch(updateMemberNotifierProvider);
@@ -59,7 +60,7 @@ class _CreateCardState extends ConsumerState<CreateCard> {
                     onPressed: printState
                         ? () {
                             ref
-                                .read(nfcWriteNotifierProvider.notifier)
+                                .read(nfcReadNotifierProvider.notifier)
                                 .writeNfcCardAsync();
                             String message = nfcWriteState
                                 ? 'Erfolgreich beschrieben!'

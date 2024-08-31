@@ -13,14 +13,16 @@ class GeneralMenu extends StatelessWidget {
         const ListTile(
           title: Text('Allgemeines'),
         ),
-        InkWell(
+        ListTile(
+          leading: const Icon(Icons.settings),
+          title: const Text("Einstellungen"),
           onTap: () {
-            onItemTapped(1);
+            Navigator.pop(context); // Schließt das Drawer
+            Navigator.pushReplacementNamed(
+              context,
+              Settings.routeName,
+            ); // Navigiere zur "Neu Drucken"-Seite
           },
-          child: const ListTile(
-            leading: Icon(Icons.settings),
-            title: Text("Einstellungen"),
-          ),
         ),
       ],
     );

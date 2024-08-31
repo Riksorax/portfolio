@@ -97,3 +97,39 @@ Future<void> _deleteMember(String memberNumber) async {
   // Mitglied aus der Datenbank löschen (asynchron)
   await dbRef.remove();
 }
+
+@riverpod
+Future<List<Member>?> getAllMembersRepo(GetAllMembersRepoRef ref, String memberNumber) async {
+  try {
+    var members = await _getAllMembers();
+    return members;
+  } catch (e) {
+    print("Fehler beim Laden des Mitglieds: $e");
+    return null;
+  }
+}
+
+Future<List<Member>> _getAllMembers() async {
+  try {
+    // Access the "members" node in your database
+    DatabaseReference dbRef = FirebaseDatabase.instance.ref("members");
+
+    // Get all child nodes (members) as a list of DataSnapshots
+    DataSnapshot snapshot = await dbRef.get();
+
+    if (snapshot.exists) {
+      List<Member> members = [];
+      for (DataSnapshot childSnapshot in snapshot.children) {
+        // Convert each child snapshot to a Member object
+        Map<String, dynamic> data = childSnapshot.value as Map<String, dynamic>;
+        members.add(Member.fromMap(data));
+      }
+      return members;
+    } else {
+      return []; // No members found
+    }
+  } catch (e) {
+    print("Fehler beim Laden der Mitglieder: $e");
+    return [];
+  }
+}

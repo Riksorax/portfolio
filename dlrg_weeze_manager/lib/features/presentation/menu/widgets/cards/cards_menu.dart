@@ -1,30 +1,47 @@
 import 'package:flutter/material.dart';
 
+import '../../../member_cards/member_cards.dart';
+
 class CardsMenu extends StatelessWidget {
   final Function(int) onItemTapped;
+
   const CardsMenu({super.key, required this.onItemTapped});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ListTile(
+        const ListTile(
           title: Text('Karten'),
         ),
         ListTile(
-          leading: Icon(Icons.create),
-          title: Text("Erstellen"),
+          leading: const Icon(Icons.create),
+          title: const Text("Erstellen"),
           onTap: () {
-            onItemTapped(0);
+            Navigator.pop(context); // Schließt das Drawer
+            Navigator.pushReplacementNamed(
+              context,
+              MemberCards.routeName,
+            );
           },
         ),
         ListTile(
-          leading: Icon(Icons.print),
-          title: Text("Neu Drucken"),
+          leading: const Icon(Icons.print),
+          title: const Text("Neu Drucken"),
+          onTap: () {
+            Navigator.pop(context); // Schließt das Drawer
+            Navigator.pushNamed(
+                context, '/print_card'); // Navigiere zur "Neu Drucken"-Seite
+          },
         ),
         ListTile(
-          leading: Icon(Icons.list),
-          title: Text("Übersicht"),
+          leading: const Icon(Icons.list),
+          title: const Text("Übersicht"),
+          onTap: () {
+            Navigator.pop(context); // Schließt das Drawer
+            Navigator.pushNamed(
+                context, '/card_overview'); // Navigiere zur "Übersicht"-Seite
+          },
         ),
       ],
     );

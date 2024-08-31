@@ -15,7 +15,7 @@ class MenuDrawer extends StatelessWidget {
       children: [
         CardsMenu(onItemTapped: onItemTapped),
         const Divider(),
-        const IndoorPoolMenu(),
+        IndoorPoolMenu(onItemTapped: onItemTapped),
         const Divider(),
         GeneralMenu(onItemTapped: onItemTapped),
       ],

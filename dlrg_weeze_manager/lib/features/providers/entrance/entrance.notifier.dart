@@ -13,7 +13,10 @@ class EntranceNotifier extends _$EntranceNotifier {
   }
 
   void addEntranceList(Member member){
-    member.memberCheckIn = true;
-    state = [...state, member];
+    var test = state.any((element) => element.memberNumber == member.memberNumber);
+    if (!test) {
+      member.memberCheckIn = true;
+      state = [...state, member];
+    }
   }
 }

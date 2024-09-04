@@ -7,7 +7,7 @@ part of 'update_member.notifier.dart';
 // **************************************************************************
 
 String _$updateMemberNotifierHash() =>
-    r'a1b66349f20d2cbb1d257b570f064f17a7701d37';
+    r'b3d202ca6d32518f2a289a49c75edce460df38ce';
 
 /// See also [UpdateMemberNotifier].
 @ProviderFor(UpdateMemberNotifier)

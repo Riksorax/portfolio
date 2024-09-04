@@ -1,6 +1,10 @@
+import 'dart:nativewrappers/_internal/vm/lib/ffi_patch.dart';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../shared/data/models/member.dart';
+import '../../shared/data/models/memberCheckIn.dart';
+import '../update_member/update_member_check_in.notifier.dart';
 
 part 'entrance.notifier.g.dart';
 
@@ -15,7 +19,8 @@ class EntranceNotifier extends _$EntranceNotifier {
   void addEntranceList(Member member){
     var test = state.any((element) => element.memberNumber == member.memberNumber);
     if (!test) {
-      member.memberCheckIn = true;
+      var memberCheckIn = ref.read(updateMemberCheckInNotifierProvider);
+      member.memberCheckIn.add(memberCheckIn);
       state = [...state, member];
     }
   }

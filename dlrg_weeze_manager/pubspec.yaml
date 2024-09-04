@@ -37,15 +37,15 @@ dependencies:
   riverpod_generator: ^2.4.3
   riverpod_annotation: ^2.3.5
   riverpod_lint: ^2.3.13
-  excel: ^4.0.3
+  excel: ^4.0.6
   nfc_manager: ^3.5.0
   file_picker: ^8.1.2
   path_provider: ^2.1.4
   printing: ^5.13.2
-  syncfusion_flutter_pdfviewer: ^26.2.9
-  syncfusion_flutter_pdf: ^26.1.40
-  firebase_core: ^3.3.0
-  firebase_database: ^11.1.0
+  syncfusion_flutter_pdfviewer: ^26.2.12
+  syncfusion_flutter_pdf: ^26.2.12
+  firebase_core: ^3.4.0
+  firebase_database: ^11.1.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

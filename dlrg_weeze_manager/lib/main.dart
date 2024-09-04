@@ -5,11 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'features/presentation/general/settings/settings.dart';
 import 'features/presentation/indoor_pool/entrance.dart';
 import 'features/presentation/member_cards/member_cards.dart';
-import 'features/presentation/menu/menu_drawer.dart';
-import 'features/providers/nfc/nfc_write.notifier.dart';
 import 'features/shared/presentation/theme/theme.dart';
 import 'features/shared/presentation/widgets/base_scaffold.dart';
-import 'features/shared/providers/current_page.provider.dart';
 import 'firebase_options.dart';
 
 void main() {

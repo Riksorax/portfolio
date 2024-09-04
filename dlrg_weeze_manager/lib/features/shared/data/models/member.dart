@@ -1,11 +1,12 @@
+import 'memberCheckIn.dart';
+
 class Member {
   String lastname = "";
   String firstname = "";
   String birthday = "";
   String memberNumber = "";
   bool memberCardDone = false;
-  bool memberCheckIn = false;
-  DateTime checkInDate = DateTime.now();
+  List<MemberCheckIn> memberCheckIn = List.empty();
 
   Member(
     this.lastname,
@@ -14,7 +15,6 @@ class Member {
     this.memberNumber,
     this.memberCardDone,
     this.memberCheckIn,
-    this.checkInDate,
   );
 
   // Factory-Methode, um ein Member-Objekt aus einer Map zu erstellen
@@ -26,7 +26,6 @@ class Member {
       map['memberNumber'],
       map['memberCardDone'],
       map['memberCheckIn'],
-      DateTime.parse(map['checkInDate']),
     );
   }
 
@@ -39,7 +38,6 @@ class Member {
       'memberNumber': memberNumber,
       'memberCardDone': memberCardDone,
       'memberCheckIn': memberCheckIn,
-      'checkInDate': checkInDate.toIso8601String(),
     };
   }
 }

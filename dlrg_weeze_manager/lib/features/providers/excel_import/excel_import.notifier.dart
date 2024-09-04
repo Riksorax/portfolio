@@ -28,8 +28,7 @@ class ExcelImportNotifier extends _$ExcelImportNotifier {
           row[2]!.value.toString(),
           row[3]!.value.toString(),
           false,
-          false,
-          DateTime.now(),
+          List.empty(),
         );
 
         listMembers.add(member);

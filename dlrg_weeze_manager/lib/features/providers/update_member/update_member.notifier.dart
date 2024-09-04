@@ -19,8 +19,7 @@ class UpdateMemberNotifier extends _$UpdateMemberNotifier {
         "",
         "",
         false,
-        false,
-        DateTime.now(),
+    List.empty(),
       );
 
   void getNextMember(List<Member> memberList) {
@@ -43,7 +42,7 @@ class UpdateMemberNotifier extends _$UpdateMemberNotifier {
         .read(updateMemberNotifierProvider.notifier)
         .getNextMember(nextMemberList);
     ref.read(pdfTemplateProvider.notifier).fillPlaceholderPDF();
-    ref.read(nfcReadNotifierProvider.notifier).resteState();
+    ref.read(nfcWriteNotifierProvider.notifier).resteState();
     ref.read(printPdfTemplateNotifierProvider.notifier).resteState();
   }
 }

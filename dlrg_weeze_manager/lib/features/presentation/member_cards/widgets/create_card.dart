@@ -23,7 +23,7 @@ class _CreateCardState extends ConsumerState<CreateCard> {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     final pdfPath = ref.watch(pdfTemplateProvider);
-    final nfcWriteState = ref.watch(nfcReadNotifierProvider);
+    final nfcWriteState = ref.watch(nfcWriteNotifierProvider);
     final excelImport = ref.watch(excelImportNotifierProvider);
     final printState = ref.watch(printPdfTemplateNotifierProvider);
     ref.watch(updateMemberNotifierProvider);
@@ -60,7 +60,7 @@ class _CreateCardState extends ConsumerState<CreateCard> {
                     onPressed: printState
                         ? () {
                             ref
-                                .read(nfcReadNotifierProvider.notifier)
+                                .read(nfcWriteNotifierProvider.notifier)
                                 .writeNfcCardAsync();
                             String message = nfcWriteState
                                 ? 'Erfolgreich beschrieben!'

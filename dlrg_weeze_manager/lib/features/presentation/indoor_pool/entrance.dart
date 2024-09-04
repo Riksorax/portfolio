@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../providers/entrance/entrance.notifier.dart';
+import '../../providers/nfc/nfc_read.notifier.dart';
 import '../../providers/nfc/nfc_write.notifier.dart';
 import '../../shared/presentation/widgets/base_scaffold.dart';
 
@@ -38,9 +39,10 @@ class _EntranceState extends ConsumerState<Entrance> {
       DateFormat formatter = DateFormat('dd.MM.yyyy');
       return saturday = formatter.format(naechsterSamstag);
     }
+
     saturday = calcNextSaturday();
 
-    ref.read(nfcWriteNotifierProvider.notifier).scanMember();
+    ref.read(nfcReadNotifierProvider.notifier).scanMember();
     var memberList = ref.watch(entranceNotifierProvider);
 
     return BaseScaffold(
@@ -68,23 +70,32 @@ class _EntranceState extends ConsumerState<Entrance> {
                         shrinkWrap: true,
                         itemCount: memberList.length,
                         itemBuilder: (context, index) {
-                          var firstName = memberList[index].firstname.toString();
+                          var firstName =
+                              memberList[index].firstname.toString();
                           var lastName = memberList[index].lastname.toString();
                           var birthDay = DateTime.parse(
                               memberList[index].birthday.toString());
-                          var memberNo = memberList[index].memberNumber.toString();
-                          var memberCardDone =
-                              memberList[index].memberCheckIn;
+                          var memberNo =
+                              memberList[index].memberNumber.toString();
+                          var memberCardDone = memberList[index].memberCheckIn;
                           return ListTile(
                             trailing: SizedBox(
                               width: 100,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  const Text("Anwesend"),
-                                  Checkbox(
-                                    value: memberCardDone,
-                                    onChanged: null,
+                                  ...memberCardDone.map(
+                                    (element) {
+                                      return Column(
+                                        children: [
+                                          const Text("Anwesend"),
+                                          Checkbox(
+                                            value: element.checkIn,
+                                            onChanged: null,
+                                          ),
+                                        ],
+                                      );
+                                    },
                                   ),
                                 ],
                               ),
@@ -92,7 +103,8 @@ class _EntranceState extends ConsumerState<Entrance> {
                             title: Text("$firstName $lastName"),
                             subtitle: Text(
                               DateFormat("dd.MM.yyyy"
-                                  "").format(birthDay),
+                                      "")
+                                  .format(birthDay),
                             ),
                           );
                         },

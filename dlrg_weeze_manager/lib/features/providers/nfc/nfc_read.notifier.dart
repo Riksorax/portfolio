@@ -1,74 +1,75 @@
+import 'dart:convert';
+
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../update_member/update_member.notifier.dart';
+import '../../shared/data/models/member.dart';
+import '../../shared/providers/firebase_repository.provider.dart';
+import '../entrance/entrance.notifier.dart';
 
 part 'nfc_read.notifier.g.dart';
 
 @riverpod
 class NfcReadNotifier extends _$NfcReadNotifier {
   @override
-  bool build() {
-    return false;
+  Member build() {
+    return Member(
+      "",
+      "",
+      "",
+      "",
+      false,
+      List.empty(),
+    );
   }
 
-  void writeNfcCardAsync() async {
-    if (await NfcManager.instance.isAvailable()) {
-      try {
-        // Starten der Session
-        await NfcManager.instance.startSession(
-            onDiscovered: (NfcTag tag) async {
-              // NDEF (NFC Data Exchange Format) verwenden
-              var ndef = Ndef.from(tag);
-              if (ndef == null || !ndef.isWritable) {
-                await NfcManager.instance
-                    .stopSession(errorMessage: 'Tag ist nicht beschreibbar');
-                return;
-              }
-
-              final member = ref.read(updateMemberNotifierProvider);
-              if (member.memberNumber.isEmpty) {
-                state = false;
-                return;
-              }
-
-              // Nur spezifische Schlüssel wie FIRSTNAME und LASTNAME speichern
-              List<NdefRecord> records = [];
-
-              records.add(NdefRecord.createText(
-                  member.memberNumber));
-
-              if (records.isEmpty) {
-                await NfcManager.instance.stopSession(
-                    errorMessage: 'Keine gültigen Daten zum Schreiben gefunden');
-                state = false;
-                return;
-              }
-
-              // NDEF-Nachricht mit den erstellten Records
-              NdefMessage message = NdefMessage(records);
-
-              try {
-                await ndef.write(message);
-
-                //TODO Schreibschutz erst mal aus, abklären oder den angemacht werden soll
-                //await ndef.writeLock();
-
-                state = true;
-                await NfcManager.instance.stopSession(alertMessage: 'Erfolgreich!');
-              } catch (e) {
-                await NfcManager.instance.stopSession(errorMessage: e.toString());
-              }
-            });
-      } catch (e) {
-        state = false;
+  void scanMember() async{
+    try {
+      NfcManager nfc = NfcManager.instance;
+      if (!await nfc.isAvailable()) {
+        print('NFC wird nicht unterstützt.');
+        return; // NFC wird nicht unterstützt
       }
-    } else {
-      state = false;
-    }
-  }
 
-  void resteState(){
-    state = false;
+      // Starte die NFC-Session
+      NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
+        // Beispiel für NDEF-Tag
+        var ndef = Ndef.from(tag);
+        if (ndef == null) {
+          print('Kein NDEF-Tag entdeckt.');
+          NfcManager.instance.stopSession();
+          return;
+        }
+
+        // Lese NDEF-Nachricht
+        NdefMessage? ndefMessage = ndef.cachedMessage;
+        if (ndefMessage != null) {
+          for (NdefRecord record in ndefMessage.records) {
+            String recordType = utf8.decode(record.type);
+            if (record.typeNameFormat == NdefTypeNameFormat.nfcWellknown) {
+              if (recordType == 'T') {
+                // Text auslesen
+                var payload = record.payload;
+                var languageCodeLength = payload[0];
+                var text = utf8.decode(payload.sublist(1 + languageCodeLength));
+                print('NDEF-Text: $text');
+                var member = await ref.read(GetMemberRepoProvider(text).future);
+                if (member == null) {
+                  return;
+                }
+                ref.read(entranceNotifierProvider.notifier).addEntranceList(member);
+                state = member;
+              }
+            }
+          }
+        }
+
+        // Stoppe die NFC-Session
+        NfcManager.instance.stopSession();
+      });
+    } catch (e) {
+      print('Fehler beim Lesen der NFC-Karte: $e');
+      return null;
+    }
   }
 }

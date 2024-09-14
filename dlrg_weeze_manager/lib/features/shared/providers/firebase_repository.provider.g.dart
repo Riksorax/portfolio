@@ -540,135 +540,21 @@ class _DeleteMemberRepoProviderElement
   String get memberNumber => (origin as DeleteMemberRepoProvider).memberNumber;
 }
 
-String _$getAllMembersRepoHash() => r'c209b3a1ae00cff75f1f9f9004ab6ce6fa6eed07';
+String _$getAllMembersRepoHash() => r'8c60677a23997227f05383a008c8f163c2fd150b';
 
 /// See also [getAllMembersRepo].
 @ProviderFor(getAllMembersRepo)
-const getAllMembersRepoProvider = GetAllMembersRepoFamily();
+final getAllMembersRepoProvider =
+    AutoDisposeFutureProvider<List<Member>>.internal(
+  getAllMembersRepo,
+  name: r'getAllMembersRepoProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getAllMembersRepoHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
-/// See also [getAllMembersRepo].
-class GetAllMembersRepoFamily extends Family<AsyncValue<List<Member>?>> {
-  /// See also [getAllMembersRepo].
-  const GetAllMembersRepoFamily();
-
-  /// See also [getAllMembersRepo].
-  GetAllMembersRepoProvider call(
-    String memberNumber,
-  ) {
-    return GetAllMembersRepoProvider(
-      memberNumber,
-    );
-  }
-
-  @override
-  GetAllMembersRepoProvider getProviderOverride(
-    covariant GetAllMembersRepoProvider provider,
-  ) {
-    return call(
-      provider.memberNumber,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'getAllMembersRepoProvider';
-}
-
-/// See also [getAllMembersRepo].
-class GetAllMembersRepoProvider
-    extends AutoDisposeFutureProvider<List<Member>?> {
-  /// See also [getAllMembersRepo].
-  GetAllMembersRepoProvider(
-    String memberNumber,
-  ) : this._internal(
-          (ref) => getAllMembersRepo(
-            ref as GetAllMembersRepoRef,
-            memberNumber,
-          ),
-          from: getAllMembersRepoProvider,
-          name: r'getAllMembersRepoProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$getAllMembersRepoHash,
-          dependencies: GetAllMembersRepoFamily._dependencies,
-          allTransitiveDependencies:
-              GetAllMembersRepoFamily._allTransitiveDependencies,
-          memberNumber: memberNumber,
-        );
-
-  GetAllMembersRepoProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.memberNumber,
-  }) : super.internal();
-
-  final String memberNumber;
-
-  @override
-  Override overrideWith(
-    FutureOr<List<Member>?> Function(GetAllMembersRepoRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: GetAllMembersRepoProvider._internal(
-        (ref) => create(ref as GetAllMembersRepoRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        memberNumber: memberNumber,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<List<Member>?> createElement() {
-    return _GetAllMembersRepoProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is GetAllMembersRepoProvider &&
-        other.memberNumber == memberNumber;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, memberNumber.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-mixin GetAllMembersRepoRef on AutoDisposeFutureProviderRef<List<Member>?> {
-  /// The parameter `memberNumber` of this provider.
-  String get memberNumber;
-}
-
-class _GetAllMembersRepoProviderElement
-    extends AutoDisposeFutureProviderElement<List<Member>?>
-    with GetAllMembersRepoRef {
-  _GetAllMembersRepoProviderElement(super.provider);
-
-  @override
-  String get memberNumber => (origin as GetAllMembersRepoProvider).memberNumber;
-}
+typedef GetAllMembersRepoRef = AutoDisposeFutureProviderRef<List<Member>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

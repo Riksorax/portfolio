@@ -6,7 +6,7 @@ class Member {
   String birthday = "";
   String memberNumber = "";
   bool memberCardDone = false;
-  List<MemberCheckIn> memberCheckIn = List.empty();
+  List<MemberCheckIn> memberCheckIn = [];
 
   Member(
     this.lastname,
@@ -20,15 +20,21 @@ class Member {
   // Factory-Methode, um ein Member-Objekt aus einer Map zu erstellen
   factory Member.fromMap(Map<String, dynamic> map) {
     return Member(
-      map['lastname'],
-      map['firstname'],
-      map['birthday'],
-      map['memberNumber'],
-      map['memberCardDone'],
-      map['memberCheckIn'],
+      map['lastname'] ?? '',
+      map['firstname'] ?? '',
+      map['birthday'] ?? '',
+      map['memberNumber'] ?? '',
+      map['memberCardDone'] ?? false,
+      (map['memberCheckIn'] != null && map['memberCheckIn'] is List)
+          ? List<MemberCheckIn>.from(
+        (map['memberCheckIn'] as List<dynamic>)
+            .map((item) {
+          return MemberCheckIn.fromMap(Map<String, dynamic>.from(item));
+        }),
+      )
+          : [], // Wenn memberCheckIn null ist oder kein List ist, benutze eine leere Liste
     );
   }
-
   // Methode, um ein Member-Objekt in eine Map zu konvertieren
   Map<String, dynamic> toMap() {
     return {
@@ -37,7 +43,7 @@ class Member {
       'birthday': birthday,
       'memberNumber': memberNumber,
       'memberCardDone': memberCardDone,
-      'memberCheckIn': memberCheckIn,
+      'memberCheckIn': memberCheckIn.map((checkIn) => checkIn.toMap()).toList(), // Hier wird die Liste in Maps konvertiert
     };
   }
 }

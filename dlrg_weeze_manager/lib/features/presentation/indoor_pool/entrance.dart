@@ -6,6 +6,7 @@ import '../../providers/entrance/entrance.notifier.dart';
 import '../../providers/nfc/nfc_read.notifier.dart';
 import '../../providers/nfc/nfc_write.notifier.dart';
 import '../../shared/presentation/widgets/base_scaffold.dart';
+import '../../shared/providers/firebase_repository.provider.dart';
 
 class Entrance extends ConsumerStatefulWidget {
   const Entrance({super.key});
@@ -18,6 +19,8 @@ class Entrance extends ConsumerStatefulWidget {
 class _EntranceState extends ConsumerState<Entrance> {
   @override
   Widget build(BuildContext context) {
+    final deviceSize = MediaQuery.of(context).size;
+
     late String saturday;
 
     String calcNextSaturday() {
@@ -44,6 +47,11 @@ class _EntranceState extends ConsumerState<Entrance> {
 
     ref.read(nfcReadNotifierProvider.notifier).scanMember();
     var memberList = ref.watch(entranceNotifierProvider);
+
+    if (memberList.isEmpty) {
+      final test = ref.read(getAllMembersRepoProvider).value;
+      /*memberList = ;*/
+    }
 
     return BaseScaffold(
       title: "Einlass",
@@ -78,35 +86,61 @@ class _EntranceState extends ConsumerState<Entrance> {
                           var memberNo =
                               memberList[index].memberNumber.toString();
                           var memberCardDone = memberList[index].memberCheckIn;
-                          return ListTile(
-                            trailing: SizedBox(
-                              width: 100,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  ...memberCardDone.map(
-                                    (element) {
-                                      return Column(
-                                        children: [
-                                          const Text("Anwesend"),
-                                          Checkbox(
-                                            value: element.checkIn,
-                                            onChanged: null,
+                          return SizedBox(
+                            height: deviceSize.height / 1.4,
+                            child: ListTile(
+                              trailing: SizedBox(
+                                width: 125,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    ...memberCardDone.map(
+                                          (element) {
+                                        var checkDate = DateFormat("dd.MM.yyyy").format(element.checkInDate);
+                                        return element.checkIn ? Expanded(
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: Column(
+                                                  children: [
+                                                    Flexible(child: Text(checkDate)),
+                                                    Flexible(
+                                                      child: Checkbox(
+                                                        value: element.checkIn,
+                                                        onChanged: null,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Column(
+                                                  children: [
+                                                    const Flexible(child: Text("Bezahlt")),
+                                                    Flexible(
+                                                      child: Checkbox(
+                                                        value: element.payed,
+                                                        onChanged: null,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      );
-                                    },
-                                  ),
-                                ],
+                                        ) : const SizedBox();
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              title: Text("$firstName $lastName"),
+                              subtitle: Text(
+                                DateFormat("dd.MM.yyyy").format(birthDay),
                               ),
                             ),
-                            title: Text("$firstName $lastName"),
-                            subtitle: Text(
-                              DateFormat("dd.MM.yyyy"
-                                      "")
-                                  .format(birthDay),
-                            ),
                           );
+
                         },
                       ),
                     ),

@@ -99,13 +99,13 @@ Future<void> _deleteMember(String memberNumber) async {
 }
 
 @riverpod
-Future<List<Member>?> getAllMembersRepo(GetAllMembersRepoRef ref, String memberNumber) async {
+Future<List<Member>> getAllMembersRepo(GetAllMembersRepoRef ref) async {
   try {
     var members = await _getAllMembers();
     return members;
   } catch (e) {
     print("Fehler beim Laden des Mitglieds: $e");
-    return null;
+    return [];
   }
 }
 
@@ -121,8 +121,14 @@ Future<List<Member>> _getAllMembers() async {
       List<Member> members = [];
       for (DataSnapshot childSnapshot in snapshot.children) {
         // Convert each child snapshot to a Member object
-        Map<String, dynamic> data = childSnapshot.value as Map<String, dynamic>;
-        members.add(Member.fromMap(data));
+        var data = childSnapshot.value;
+
+        if (data is Map) {
+          Map<String, dynamic> stringMap = Map<String, dynamic>.from(data);
+          members.add(Member.fromMap(stringMap));
+        } else {
+          print("Unexpected data format: $data");
+        }
       }
       return members;
     } else {

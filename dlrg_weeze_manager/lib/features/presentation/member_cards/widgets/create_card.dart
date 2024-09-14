@@ -74,7 +74,7 @@ class _CreateCardState extends ConsumerState<CreateCard> {
                     icon: const Icon(Icons.nfc),
                   ),
                   TextButton.icon(
-                    onPressed: nfcWriteState
+                    onPressed: !nfcWriteState
                         ? () {
                             ref
                                 .watch(updateMemberNotifierProvider.notifier)

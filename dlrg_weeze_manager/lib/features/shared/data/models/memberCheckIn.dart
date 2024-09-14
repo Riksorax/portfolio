@@ -1,5 +1,5 @@
 class MemberCheckIn {
-  DateTime checkInDate = DateTime.now();
+  DateTime  checkInDate = DateTime.now();
   bool checkIn = false;
   bool payed = false;
 
@@ -17,11 +17,12 @@ class MemberCheckIn {
     );
   }
 
+  // Methode, um ein MemberCheckIn-Objekt in eine Map zu konvertieren
   Map<String, dynamic> toMap() {
     return {
-      'lastname': checkInDate.toIso8601String(),
-      'firstname': checkIn,
-      'birthday': payed,
+      'checkInDate': checkInDate.toIso8601String(),  // Konvertiere DateTime in String
+      'checkIn': checkIn,
+      'payed': payed,
     };
   }
 }

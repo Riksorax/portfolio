@@ -6,12 +6,12 @@ part of 'nfc_write.notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$nfcWriteNotifierHash() => r'2bf6835a03312c6b811d88e3194dd6f8e497c3a0';
+String _$nfcWriteNotifierHash() => r'a8802f15365c19928e00fbf0189238df8655002a';
 
 /// See also [NfcWriteNotifier].
 @ProviderFor(NfcWriteNotifier)
 final nfcWriteNotifierProvider =
-    AutoDisposeNotifierProvider<NfcWriteNotifier, bool>.internal(
+    AutoDisposeNotifierProvider<NfcWriteNotifier, Member>.internal(
   NfcWriteNotifier.new,
   name: r'nfcWriteNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,6 +21,6 @@ final nfcWriteNotifierProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$NfcWriteNotifier = AutoDisposeNotifier<bool>;
+typedef _$NfcWriteNotifier = AutoDisposeNotifier<Member>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

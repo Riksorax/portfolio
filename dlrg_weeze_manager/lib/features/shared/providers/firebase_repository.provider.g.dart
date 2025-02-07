@@ -142,6 +142,8 @@ class SaveMemberRepoProvider extends AutoDisposeFutureProvider<bool> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin SaveMemberRepoRef on AutoDisposeFutureProviderRef<bool> {
   /// The parameter `member` of this provider.
   Member get member;
@@ -270,6 +272,8 @@ class GetMemberRepoProvider extends AutoDisposeFutureProvider<Member?> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin GetMemberRepoRef on AutoDisposeFutureProviderRef<Member?> {
   /// The parameter `memberNumber` of this provider.
   String get memberNumber;
@@ -398,6 +402,8 @@ class UpdateMemberRepoProvider extends AutoDisposeFutureProvider<bool> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin UpdateMemberRepoRef on AutoDisposeFutureProviderRef<bool> {
   /// The parameter `member` of this provider.
   Member get member;
@@ -527,6 +533,8 @@ class DeleteMemberRepoProvider extends AutoDisposeFutureProvider<bool> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin DeleteMemberRepoRef on AutoDisposeFutureProviderRef<bool> {
   /// The parameter `memberNumber` of this provider.
   String get memberNumber;
@@ -555,6 +563,8 @@ final getAllMembersRepoProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef GetAllMembersRepoRef = AutoDisposeFutureProviderRef<List<Member>>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

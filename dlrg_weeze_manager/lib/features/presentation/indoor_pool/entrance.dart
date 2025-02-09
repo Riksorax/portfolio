@@ -48,9 +48,11 @@ class _EntranceState extends ConsumerState<Entrance> {
     ref.read(nfcReadNotifierProvider.notifier).scanMember();
     var memberList = ref.watch(entranceNotifierProvider);
 
-    if (memberList.isEmpty) {
-      final test = ref.read(getAllMembersRepoProvider).value;
-      /*memberList = ;*/
+    clickPayed(String memberNumber, bool? value, int index) {
+      print(memberNumber);
+      ref
+          .read(entranceNotifierProvider.notifier)
+          .updateMember(memberNumber, value!, index);
     }
 
     return BaseScaffold(
@@ -92,43 +94,61 @@ class _EntranceState extends ConsumerState<Entrance> {
                               trailing: SizedBox(
                                 width: 125,
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    ...memberCardDone.map(
-                                          (element) {
-                                        var checkDate = DateFormat("dd.MM.yyyy").format(element.checkInDate);
-                                        return element.checkIn ? Expanded(
-                                          child: Row(
-                                            children: [
-                                              Expanded(
-                                                child: Column(
+                                    ...memberCardDone.asMap().entries.map(
+                                      (entry) {
+                                        int index = entry.key;
+                                        var element = entry.value;
+                                        var checkDate = DateFormat("dd.MM.yyyy")
+                                            .format(element.checkInDate);
+                                        return element.checkIn
+                                            ? Expanded(
+                                                child: Row(
                                                   children: [
-                                                    Flexible(child: Text(checkDate)),
-                                                    Flexible(
-                                                      child: Checkbox(
-                                                        value: element.checkIn,
-                                                        onChanged: null,
+                                                    Expanded(
+                                                      child: Column(
+                                                        children: [
+                                                          Flexible(
+                                                              child: Text(
+                                                                  checkDate)),
+                                                          Flexible(
+                                                            child: Checkbox(
+                                                              value: element
+                                                                  .checkIn,
+                                                              onChanged: null,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: Column(
+                                                        children: [
+                                                          const Flexible(
+                                                              child: Text(
+                                                                  "Bezahlt")),
+                                                          Flexible(
+                                                            child: Checkbox(
+                                                              value:
+                                                                  element.payed,
+                                                              onChanged: element
+                                                                      .payed
+                                                                  ? null
+                                                                  : (value) => clickPayed(
+                                                                  memberNo,
+                                                                      value,
+                                                                      index),
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
                                                     ),
                                                   ],
                                                 ),
-                                              ),
-                                              Expanded(
-                                                child: Column(
-                                                  children: [
-                                                    const Flexible(child: Text("Bezahlt")),
-                                                    Flexible(
-                                                      child: Checkbox(
-                                                        value: element.payed,
-                                                        onChanged: null,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ) : const SizedBox();
+                                              )
+                                            : const SizedBox();
                                       },
                                     ),
                                   ],
@@ -140,7 +160,6 @@ class _EntranceState extends ConsumerState<Entrance> {
                               ),
                             ),
                           );
-
                         },
                       ),
                     ),

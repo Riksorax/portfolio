@@ -15,15 +15,24 @@ class EntranceNotifier extends _$EntranceNotifier {
   }
 
   void addEntranceList(Member member) {
-    var checkMember = checkMemberNumber(member);
-    if (!checkMember) {
-      var memberCheckIn = ref.read(updateMemberCheckInNotifierProvider);
+    var memberCheckIn = ref.read(updateMemberCheckInNotifierProvider);
+    if (!checkMemberNumber(member, memberCheckIn.checkInDate)) {
       member.memberCheckIn.add(memberCheckIn);
       state = [...state, member];
     }
   }
 
-  bool checkMemberNumber(Member member) {
-    return state.any((element) => element.memberNumber == member.memberNumber);
+  bool checkMemberNumber(Member member, DateTime checkInDate) {
+    return state.any((element) =>
+        element.memberNumber == member.memberNumber);
+  }
+
+  void updateMember(String memberNumber, bool payed, int index) {
+    var member =
+        state.firstWhere((element) => element.memberNumber == memberNumber);
+    var memberCheckIn = member.memberCheckIn[index];
+    memberCheckIn.payed = payed;
+    ref.read(UpdateMemberRepoProvider(member));
+    state = [...state];
   }
 }

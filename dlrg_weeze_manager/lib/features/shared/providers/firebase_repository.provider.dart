@@ -48,10 +48,32 @@ Future<Member?> _getMember(String memberNumber) async {
   // Daten in ein Member-Objekt umwandeln
   if (snapshot.exists) {
     Map<dynamic, dynamic> data = snapshot.value as Map<dynamic, dynamic>;
+    Map<String, dynamic> stringMap = data.map((key, value) => MapEntry(key as String, value));
 
-    // Konvertiere Map<dynamic, dynamic> in Map<String, dynamic>
-    Map<String, dynamic> stringMap =
-    data.map((key, value) => MapEntry(key as String, value));
+    // Zugriff auf memberCheckIn und Verarbeitung
+    if (stringMap.containsKey('memberCheckIn')) {
+      dynamic checkInData = stringMap['memberCheckIn'];
+
+      if (checkInData is Map) { // Altes Format: Map von Keys zu Check-in-Objekten
+        List<dynamic> checkInList = checkInData.values.toList();
+        checkInList.sort((a, b) => DateTime.parse(a['checkInDate']).compareTo(DateTime.parse(b['checkInDate'])));
+
+        if (checkInList.length > 2) {
+          stringMap['memberCheckIn'] = checkInList.sublist(checkInList.length - 2); // Nur die letzten zwei
+        } else {
+          stringMap['memberCheckIn'] = checkInList; // Alle falls weniger als 2
+        }
+
+      } else if (checkInData is List) { // Neues Format: Direkte Liste von Check-in-Objekten
+        checkInData.sort((a, b) => DateTime.parse(a['checkInDate']).compareTo(DateTime.parse(b['checkInDate'])));
+        if (checkInData.length > 2) {
+          stringMap['memberCheckIn'] = checkInData.sublist(checkInData.length - 2);
+        } else {
+          stringMap['memberCheckIn'] = checkInData; // Alle falls weniger als 2
+        }
+      }
+    }
+
     return Member.fromMap(stringMap);
   } else {
     return null; // Mitglied nicht gefunden
@@ -64,7 +86,7 @@ Future<bool> updateMemberRepo(UpdateMemberRepoRef ref, Member member) async {
     await _updateMember(member);
     return true;
   } catch (e) {
-    print("Fehler beim Laden des Mitglieds: $e");
+    print("Fehler beim Updaten des Mitglieds: $e");
     return false;
   }
 }
@@ -74,8 +96,32 @@ Future<void> _updateMember(Member member) async {
   DatabaseReference dbRef =
   FirebaseDatabase.instance.ref("members").child(member.memberNumber);
 
-  // Daten abrufen (asynchron)
-  await dbRef.update(member.toMap());
+  // Überprüfen, ob der Eintrag bereits vorhanden ist
+  DatabaseEvent memberCheck = await dbRef.once();
+
+  if (memberCheck.snapshot.value != null) {
+    Map<String, dynamic> data = memberCheck.snapshot.value as Map<String, dynamic>;
+    List<dynamic> checkIns = data['memberCheckIn'] as List<dynamic>;
+
+    int index = -1;
+    for (int i = 0; i < checkIns.length; i++) {
+      if (checkIns[i]['checkInDate'] == member.memberCheckIn[i].checkInDate) { // Nur checkInDate wird verglichen
+        index = i;
+        break;
+      }
+    }
+
+    if (index != -1) {
+      Map<String, dynamic> updatedCheckIn = member.toMap();
+      await dbRef.child('memberCheckIn').child(index.toString()).update(updatedCheckIn);
+    } else {
+      Map<String, dynamic> newCheckIn = member.toMap();
+      await dbRef.child('memberCheckIn').push().set(newCheckIn); // Korrigiert: push().set()
+    }
+  } else {
+    await dbRef.set(member.toMap());
+  }
+
 }
 
 @riverpod

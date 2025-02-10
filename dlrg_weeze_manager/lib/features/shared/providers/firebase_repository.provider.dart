@@ -81,9 +81,14 @@ Future<Member?> _getMember(String memberNumber) async {
 }
 
 @riverpod
-Future<bool> updateMemberRepo(UpdateMemberRepoRef ref, Member member) async {
+Future<bool> updateMemberRepo(UpdateMemberRepoRef ref, Member member, int? index) async {
   try {
-    await _updateMember(member);
+    if (index == null) {
+      await _updateMember(member);
+    }
+    else{
+      _updateMemberPayed(member, index);
+    }
     return true;
   } catch (e) {
     print("Fehler beim Updaten des Mitglieds: $e");
@@ -92,36 +97,27 @@ Future<bool> updateMemberRepo(UpdateMemberRepoRef ref, Member member) async {
 }
 
 Future<void> _updateMember(Member member) async {
+  String memberNumberToUpdate = member.memberNumber; // Or however you get the correct member number
+
   // Zugriff auf den spezifischen Knoten in der Datenbank
   DatabaseReference dbRef =
-  FirebaseDatabase.instance.ref("members").child(member.memberNumber);
+  FirebaseDatabase.instance.ref("members").child(memberNumberToUpdate);
 
-  // Überprüfen, ob der Eintrag bereits vorhanden ist
-  DatabaseEvent memberCheck = await dbRef.once();
+  // Daten abrufen (asynchron)
+  await dbRef.update(member.toMap());
+}
 
-  if (memberCheck.snapshot.value != null) {
-    Map<String, dynamic> data = memberCheck.snapshot.value as Map<String, dynamic>;
-    List<dynamic> checkIns = data['memberCheckIn'] as List<dynamic>;
+Future<void> _updateMemberPayed(Member member, int index) async {
+  DatabaseReference dbRef = FirebaseDatabase.instance.ref("members").child(member.memberNumber);
 
-    int index = -1;
-    for (int i = 0; i < checkIns.length; i++) {
-      if (checkIns[i]['checkInDate'] == member.memberCheckIn[i].checkInDate) { // Nur checkInDate wird verglichen
-        index = i;
-        break;
-      }
-    }
+  // Pfad zum spezifischen Eintrag im memberCheckIn-Array erstellen
+  String checkInPath = "memberCheckIn/$index";
 
-    if (index != -1) {
-      Map<String, dynamic> updatedCheckIn = member.toMap();
-      await dbRef.child('memberCheckIn').child(index.toString()).update(updatedCheckIn);
-    } else {
-      Map<String, dynamic> newCheckIn = member.toMap();
-      await dbRef.child('memberCheckIn').push().set(newCheckIn); // Korrigiert: push().set()
-    }
-  } else {
-    await dbRef.set(member.toMap());
-  }
+  // Daten für den Eintrag im memberCheckIn-Array erstellen
+  Map<String, dynamic> checkInData = member.memberCheckIn[index].toMap();
 
+  // Spezifischen Eintrag im memberCheckIn-Array aktualisieren
+  await dbRef.child(checkInPath).update(checkInData);
 }
 
 @riverpod

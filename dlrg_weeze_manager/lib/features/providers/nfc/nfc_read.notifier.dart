@@ -117,7 +117,7 @@ class NfcReadNotifier extends _$NfcReadNotifier {
     }
 
     state = member;
-    ref.read(UpdateMemberRepoProvider(member));
+    ref.read(UpdateMemberRepoProvider(member, null));
     ref.read(entranceNotifierProvider.notifier).addEntranceList(member);
   }
 }

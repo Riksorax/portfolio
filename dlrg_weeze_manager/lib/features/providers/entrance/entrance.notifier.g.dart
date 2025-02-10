@@ -6,7 +6,7 @@ part of 'entrance.notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$entranceNotifierHash() => r'970b4dbcfd22060b10075d9150160b5418a95d82';
+String _$entranceNotifierHash() => r'4a23dad4fc1ae28c020eb893b279ddcb5ba6db3f';
 
 /// See also [EntranceNotifier].
 @ProviderFor(EntranceNotifier)

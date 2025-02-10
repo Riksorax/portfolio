@@ -287,7 +287,7 @@ class _GetMemberRepoProviderElement
   String get memberNumber => (origin as GetMemberRepoProvider).memberNumber;
 }
 
-String _$updateMemberRepoHash() => r'30c6e4b19ee9ede1a478a9027cbec76b28d10359';
+String _$updateMemberRepoHash() => r'e7d5cf74405cf6d9936795240afdb2fd5761c055';
 
 /// See also [updateMemberRepo].
 @ProviderFor(updateMemberRepo)
@@ -301,9 +301,11 @@ class UpdateMemberRepoFamily extends Family<AsyncValue<bool>> {
   /// See also [updateMemberRepo].
   UpdateMemberRepoProvider call(
     Member member,
+    int? index,
   ) {
     return UpdateMemberRepoProvider(
       member,
+      index,
     );
   }
 
@@ -313,6 +315,7 @@ class UpdateMemberRepoFamily extends Family<AsyncValue<bool>> {
   ) {
     return call(
       provider.member,
+      provider.index,
     );
   }
 
@@ -336,10 +339,12 @@ class UpdateMemberRepoProvider extends AutoDisposeFutureProvider<bool> {
   /// See also [updateMemberRepo].
   UpdateMemberRepoProvider(
     Member member,
+    int? index,
   ) : this._internal(
           (ref) => updateMemberRepo(
             ref as UpdateMemberRepoRef,
             member,
+            index,
           ),
           from: updateMemberRepoProvider,
           name: r'updateMemberRepoProvider',
@@ -351,6 +356,7 @@ class UpdateMemberRepoProvider extends AutoDisposeFutureProvider<bool> {
           allTransitiveDependencies:
               UpdateMemberRepoFamily._allTransitiveDependencies,
           member: member,
+          index: index,
         );
 
   UpdateMemberRepoProvider._internal(
@@ -361,9 +367,11 @@ class UpdateMemberRepoProvider extends AutoDisposeFutureProvider<bool> {
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.member,
+    required this.index,
   }) : super.internal();
 
   final Member member;
+  final int? index;
 
   @override
   Override overrideWith(
@@ -379,6 +387,7 @@ class UpdateMemberRepoProvider extends AutoDisposeFutureProvider<bool> {
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         member: member,
+        index: index,
       ),
     );
   }
@@ -390,13 +399,16 @@ class UpdateMemberRepoProvider extends AutoDisposeFutureProvider<bool> {
 
   @override
   bool operator ==(Object other) {
-    return other is UpdateMemberRepoProvider && other.member == member;
+    return other is UpdateMemberRepoProvider &&
+        other.member == member &&
+        other.index == index;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, member.hashCode);
+    hash = _SystemHash.combine(hash, index.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -407,6 +419,9 @@ class UpdateMemberRepoProvider extends AutoDisposeFutureProvider<bool> {
 mixin UpdateMemberRepoRef on AutoDisposeFutureProviderRef<bool> {
   /// The parameter `member` of this provider.
   Member get member;
+
+  /// The parameter `index` of this provider.
+  int? get index;
 }
 
 class _UpdateMemberRepoProviderElement
@@ -415,6 +430,8 @@ class _UpdateMemberRepoProviderElement
 
   @override
   Member get member => (origin as UpdateMemberRepoProvider).member;
+  @override
+  int? get index => (origin as UpdateMemberRepoProvider).index;
 }
 
 String _$deleteMemberRepoHash() => r'b5e9127782aaf6f23103bbcabf628fbf2f9d3781';

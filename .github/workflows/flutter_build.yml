@@ -27,7 +27,7 @@ jobs:
 
       - name: Change directory to project root
         run: echo "Changing directory to project root"
-        working-directory: ${{ github.workspace }}/dlrg_weeze_manager
+        working-directory: ${{ github.workspace }}/.dlrg_weeze_manager
 
       - name: Install dependencies
         run: flutter pub get
@@ -42,4 +42,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: DLRG Community Manager.apk
-          path: ${{ github.workspace }}/dlrg_weeze_manager/build/app/outputs/flutter-apk/DLRG Community Manager.apk
+          path: ${{ github.workspace }}/.dlrg_weeze_manager/build/app/outputs/flutter-apk/DLRG Community Manager.apk

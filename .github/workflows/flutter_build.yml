@@ -20,7 +20,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: 'stable' # Oder eine spezifische Version, z.B. '3.7.0'
+          flutter-version: '3.27.4' # Oder eine spezifische Version, z.B. '3.7.0'
           cache: true
       - name: Change directory to project root
         working-directory: ${{ github.workspace }}/dlrg_weeze_manager 

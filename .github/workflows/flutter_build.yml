@@ -13,32 +13,22 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: '17'
-
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.27.4'
-
-      - name: List directory contents # <-- Hinzugefügt
-        run: ls -lR ${{ github.workspace }}
-        
       - name: Change directory to project root
         run: cd ${{ github.workspace }}  # <-- Korrigiert: run verwendet
-      
       - name: Install dependencies
         run: flutter pub get
-
       - name: Check Flutter Doctor
         run: flutter doctor -v
-
       - name: Build APK
         run: flutter build apk --debug
-
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:

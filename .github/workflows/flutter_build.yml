@@ -25,9 +25,8 @@ jobs:
           flutter-version: '3.27.4'
           cache: true
 
-      - name: Change directory to project root
-        run: echo "Changing directory to project root"
-        working-directory: ${{ github.workspace }}/dlrg_weeze_manager/dlrg_weeze_manager # <-- Korrigierter Pfad
+      - name: Change directory to project root  # <-- Korrekt: Nur working-directory
+        working-directory: ${{ github.workspace }}/dlrg_weeze_manager/dlrg_weeze_manager
 
       - name: Install dependencies
         run: flutter pub get

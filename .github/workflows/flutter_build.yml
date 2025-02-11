@@ -20,10 +20,10 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.27.4' # Oder eine spezifische Version, z.B. '3.7.0'
+          flutter-version: 'stable'
           cache: true
       - name: Change directory to project root
-        working-directory: ${{ github.workspace }}/dlrg_weeze_manager 
+        working-directory: ${{ github.workspace }}/dlrg_weeze_manager
       - name: Install dependencies
         run: flutter pub get
       - name: Check Flutter Doctor
@@ -34,4 +34,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: DLRG Community Manager.apk
-          path: ${{ github.workspace }}/dlrg_weeze_manager/build/app/outputs/flutter-apk/DLRG Community Manager.apk # Pfad angepasst!
+          path: ${{ github.workspace }}/dlrg_weeze_manager/build/app/outputs/flutter-apk/DLRG Community Manager.apk

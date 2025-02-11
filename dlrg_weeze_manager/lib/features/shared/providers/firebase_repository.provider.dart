@@ -48,10 +48,32 @@ Future<Member?> _getMember(String memberNumber) async {
   // Daten in ein Member-Objekt umwandeln
   if (snapshot.exists) {
     Map<dynamic, dynamic> data = snapshot.value as Map<dynamic, dynamic>;
+    Map<String, dynamic> stringMap = data.map((key, value) => MapEntry(key as String, value));
 
-    // Konvertiere Map<dynamic, dynamic> in Map<String, dynamic>
-    Map<String, dynamic> stringMap =
-    data.map((key, value) => MapEntry(key as String, value));
+    // Zugriff auf memberCheckIn und Verarbeitung
+    if (stringMap.containsKey('memberCheckIn')) {
+      dynamic checkInData = stringMap['memberCheckIn'];
+
+      if (checkInData is Map) { // Altes Format: Map von Keys zu Check-in-Objekten
+        List<dynamic> checkInList = checkInData.values.toList();
+        checkInList.sort((a, b) => DateTime.parse(a['checkInDate']).compareTo(DateTime.parse(b['checkInDate'])));
+
+        if (checkInList.length > 2) {
+          stringMap['memberCheckIn'] = checkInList.sublist(checkInList.length - 2); // Nur die letzten zwei
+        } else {
+          stringMap['memberCheckIn'] = checkInList; // Alle falls weniger als 2
+        }
+
+      } else if (checkInData is List) { // Neues Format: Direkte Liste von Check-in-Objekten
+        checkInData.sort((a, b) => DateTime.parse(a['checkInDate']).compareTo(DateTime.parse(b['checkInDate'])));
+        if (checkInData.length > 2) {
+          stringMap['memberCheckIn'] = checkInData.sublist(checkInData.length - 2);
+        } else {
+          stringMap['memberCheckIn'] = checkInData; // Alle falls weniger als 2
+        }
+      }
+    }
+
     return Member.fromMap(stringMap);
   } else {
     return null; // Mitglied nicht gefunden
@@ -59,23 +81,43 @@ Future<Member?> _getMember(String memberNumber) async {
 }
 
 @riverpod
-Future<bool> updateMemberRepo(UpdateMemberRepoRef ref, Member member) async {
+Future<bool> updateMemberRepo(UpdateMemberRepoRef ref, Member member, int? index) async {
   try {
-    await _updateMember(member);
+    if (index == null) {
+      await _updateMember(member);
+    }
+    else{
+      _updateMemberPayed(member, index);
+    }
     return true;
   } catch (e) {
-    print("Fehler beim Laden des Mitglieds: $e");
+    print("Fehler beim Updaten des Mitglieds: $e");
     return false;
   }
 }
 
 Future<void> _updateMember(Member member) async {
+  String memberNumberToUpdate = member.memberNumber; // Or however you get the correct member number
+
   // Zugriff auf den spezifischen Knoten in der Datenbank
   DatabaseReference dbRef =
-  FirebaseDatabase.instance.ref("members").child(member.memberNumber);
+  FirebaseDatabase.instance.ref("members").child(memberNumberToUpdate);
 
   // Daten abrufen (asynchron)
   await dbRef.update(member.toMap());
+}
+
+Future<void> _updateMemberPayed(Member member, int index) async {
+  DatabaseReference dbRef = FirebaseDatabase.instance.ref("members").child(member.memberNumber);
+
+  // Pfad zum spezifischen Eintrag im memberCheckIn-Array erstellen
+  String checkInPath = "memberCheckIn/$index";
+
+  // Daten für den Eintrag im memberCheckIn-Array erstellen
+  Map<String, dynamic> checkInData = member.memberCheckIn[index].toMap();
+
+  // Spezifischen Eintrag im memberCheckIn-Array aktualisieren
+  await dbRef.child(checkInPath).update(checkInData);
 }
 
 @riverpod
@@ -99,13 +141,13 @@ Future<void> _deleteMember(String memberNumber) async {
 }
 
 @riverpod
-Future<List<Member>?> getAllMembersRepo(GetAllMembersRepoRef ref, String memberNumber) async {
+Future<List<Member>> getAllMembersRepo(GetAllMembersRepoRef ref) async {
   try {
     var members = await _getAllMembers();
     return members;
   } catch (e) {
     print("Fehler beim Laden des Mitglieds: $e");
-    return null;
+    return [];
   }
 }
 
@@ -121,8 +163,14 @@ Future<List<Member>> _getAllMembers() async {
       List<Member> members = [];
       for (DataSnapshot childSnapshot in snapshot.children) {
         // Convert each child snapshot to a Member object
-        Map<String, dynamic> data = childSnapshot.value as Map<String, dynamic>;
-        members.add(Member.fromMap(data));
+        var data = childSnapshot.value;
+
+        if (data is Map) {
+          Map<String, dynamic> stringMap = Map<String, dynamic>.from(data);
+          members.add(Member.fromMap(stringMap));
+        } else {
+          print("Unexpected data format: $data");
+        }
       }
       return members;
     } else {

@@ -6,7 +6,7 @@ part of 'entrance.notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$entranceNotifierHash() => r'896da6dca9361f0bef686e94f51689ee4966caf6';
+String _$entranceNotifierHash() => r'4a23dad4fc1ae28c020eb893b279ddcb5ba6db3f';
 
 /// See also [EntranceNotifier].
 @ProviderFor(EntranceNotifier)
@@ -23,4 +23,4 @@ final entranceNotifierProvider =
 
 typedef _$EntranceNotifier = AutoDisposeNotifier<List<Member>>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

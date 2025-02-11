@@ -142,6 +142,8 @@ class SaveMemberRepoProvider extends AutoDisposeFutureProvider<bool> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin SaveMemberRepoRef on AutoDisposeFutureProviderRef<bool> {
   /// The parameter `member` of this provider.
   Member get member;
@@ -270,6 +272,8 @@ class GetMemberRepoProvider extends AutoDisposeFutureProvider<Member?> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin GetMemberRepoRef on AutoDisposeFutureProviderRef<Member?> {
   /// The parameter `memberNumber` of this provider.
   String get memberNumber;
@@ -283,7 +287,7 @@ class _GetMemberRepoProviderElement
   String get memberNumber => (origin as GetMemberRepoProvider).memberNumber;
 }
 
-String _$updateMemberRepoHash() => r'30c6e4b19ee9ede1a478a9027cbec76b28d10359';
+String _$updateMemberRepoHash() => r'e7d5cf74405cf6d9936795240afdb2fd5761c055';
 
 /// See also [updateMemberRepo].
 @ProviderFor(updateMemberRepo)
@@ -297,9 +301,11 @@ class UpdateMemberRepoFamily extends Family<AsyncValue<bool>> {
   /// See also [updateMemberRepo].
   UpdateMemberRepoProvider call(
     Member member,
+    int? index,
   ) {
     return UpdateMemberRepoProvider(
       member,
+      index,
     );
   }
 
@@ -309,6 +315,7 @@ class UpdateMemberRepoFamily extends Family<AsyncValue<bool>> {
   ) {
     return call(
       provider.member,
+      provider.index,
     );
   }
 
@@ -332,10 +339,12 @@ class UpdateMemberRepoProvider extends AutoDisposeFutureProvider<bool> {
   /// See also [updateMemberRepo].
   UpdateMemberRepoProvider(
     Member member,
+    int? index,
   ) : this._internal(
           (ref) => updateMemberRepo(
             ref as UpdateMemberRepoRef,
             member,
+            index,
           ),
           from: updateMemberRepoProvider,
           name: r'updateMemberRepoProvider',
@@ -347,6 +356,7 @@ class UpdateMemberRepoProvider extends AutoDisposeFutureProvider<bool> {
           allTransitiveDependencies:
               UpdateMemberRepoFamily._allTransitiveDependencies,
           member: member,
+          index: index,
         );
 
   UpdateMemberRepoProvider._internal(
@@ -357,9 +367,11 @@ class UpdateMemberRepoProvider extends AutoDisposeFutureProvider<bool> {
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.member,
+    required this.index,
   }) : super.internal();
 
   final Member member;
+  final int? index;
 
   @override
   Override overrideWith(
@@ -375,6 +387,7 @@ class UpdateMemberRepoProvider extends AutoDisposeFutureProvider<bool> {
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         member: member,
+        index: index,
       ),
     );
   }
@@ -386,21 +399,29 @@ class UpdateMemberRepoProvider extends AutoDisposeFutureProvider<bool> {
 
   @override
   bool operator ==(Object other) {
-    return other is UpdateMemberRepoProvider && other.member == member;
+    return other is UpdateMemberRepoProvider &&
+        other.member == member &&
+        other.index == index;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, member.hashCode);
+    hash = _SystemHash.combine(hash, index.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin UpdateMemberRepoRef on AutoDisposeFutureProviderRef<bool> {
   /// The parameter `member` of this provider.
   Member get member;
+
+  /// The parameter `index` of this provider.
+  int? get index;
 }
 
 class _UpdateMemberRepoProviderElement
@@ -409,6 +430,8 @@ class _UpdateMemberRepoProviderElement
 
   @override
   Member get member => (origin as UpdateMemberRepoProvider).member;
+  @override
+  int? get index => (origin as UpdateMemberRepoProvider).index;
 }
 
 String _$deleteMemberRepoHash() => r'b5e9127782aaf6f23103bbcabf628fbf2f9d3781';
@@ -527,6 +550,8 @@ class DeleteMemberRepoProvider extends AutoDisposeFutureProvider<bool> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin DeleteMemberRepoRef on AutoDisposeFutureProviderRef<bool> {
   /// The parameter `memberNumber` of this provider.
   String get memberNumber;
@@ -540,135 +565,23 @@ class _DeleteMemberRepoProviderElement
   String get memberNumber => (origin as DeleteMemberRepoProvider).memberNumber;
 }
 
-String _$getAllMembersRepoHash() => r'c209b3a1ae00cff75f1f9f9004ab6ce6fa6eed07';
+String _$getAllMembersRepoHash() => r'8c60677a23997227f05383a008c8f163c2fd150b';
 
 /// See also [getAllMembersRepo].
 @ProviderFor(getAllMembersRepo)
-const getAllMembersRepoProvider = GetAllMembersRepoFamily();
+final getAllMembersRepoProvider =
+    AutoDisposeFutureProvider<List<Member>>.internal(
+  getAllMembersRepo,
+  name: r'getAllMembersRepoProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getAllMembersRepoHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
-/// See also [getAllMembersRepo].
-class GetAllMembersRepoFamily extends Family<AsyncValue<List<Member>?>> {
-  /// See also [getAllMembersRepo].
-  const GetAllMembersRepoFamily();
-
-  /// See also [getAllMembersRepo].
-  GetAllMembersRepoProvider call(
-    String memberNumber,
-  ) {
-    return GetAllMembersRepoProvider(
-      memberNumber,
-    );
-  }
-
-  @override
-  GetAllMembersRepoProvider getProviderOverride(
-    covariant GetAllMembersRepoProvider provider,
-  ) {
-    return call(
-      provider.memberNumber,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'getAllMembersRepoProvider';
-}
-
-/// See also [getAllMembersRepo].
-class GetAllMembersRepoProvider
-    extends AutoDisposeFutureProvider<List<Member>?> {
-  /// See also [getAllMembersRepo].
-  GetAllMembersRepoProvider(
-    String memberNumber,
-  ) : this._internal(
-          (ref) => getAllMembersRepo(
-            ref as GetAllMembersRepoRef,
-            memberNumber,
-          ),
-          from: getAllMembersRepoProvider,
-          name: r'getAllMembersRepoProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$getAllMembersRepoHash,
-          dependencies: GetAllMembersRepoFamily._dependencies,
-          allTransitiveDependencies:
-              GetAllMembersRepoFamily._allTransitiveDependencies,
-          memberNumber: memberNumber,
-        );
-
-  GetAllMembersRepoProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.memberNumber,
-  }) : super.internal();
-
-  final String memberNumber;
-
-  @override
-  Override overrideWith(
-    FutureOr<List<Member>?> Function(GetAllMembersRepoRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: GetAllMembersRepoProvider._internal(
-        (ref) => create(ref as GetAllMembersRepoRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        memberNumber: memberNumber,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<List<Member>?> createElement() {
-    return _GetAllMembersRepoProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is GetAllMembersRepoProvider &&
-        other.memberNumber == memberNumber;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, memberNumber.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-mixin GetAllMembersRepoRef on AutoDisposeFutureProviderRef<List<Member>?> {
-  /// The parameter `memberNumber` of this provider.
-  String get memberNumber;
-}
-
-class _GetAllMembersRepoProviderElement
-    extends AutoDisposeFutureProviderElement<List<Member>?>
-    with GetAllMembersRepoRef {
-  _GetAllMembersRepoProviderElement(super.provider);
-
-  @override
-  String get memberNumber => (origin as GetAllMembersRepoProvider).memberNumber;
-}
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef GetAllMembersRepoRef = AutoDisposeFutureProviderRef<List<Member>>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

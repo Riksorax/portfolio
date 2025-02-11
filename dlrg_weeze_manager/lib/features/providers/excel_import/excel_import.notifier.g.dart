@@ -7,7 +7,7 @@ part of 'excel_import.notifier.dart';
 // **************************************************************************
 
 String _$excelImportNotifierHash() =>
-    r'd5806e988fbb4d187301c12cf7ac6100e6a4b49f';
+    r'c0a20a3b0c6386c0c6bca4b99421fae4fc35f950';
 
 /// See also [ExcelImportNotifier].
 @ProviderFor(ExcelImportNotifier)
@@ -24,4 +24,4 @@ final excelImportNotifierProvider =
 
 typedef _$ExcelImportNotifier = AutoDisposeNotifier<List<Member>>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

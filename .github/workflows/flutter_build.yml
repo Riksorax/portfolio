@@ -33,5 +33,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: DLRG Community Manager.apk
-          path: ${{ github.workspace }}/build/app/outputs/flutter-apk/DLRG Community Manager.apk
+          path: ${{ github.workspace }}/build/app/outputs/flutter-apk/app-debug.apk
 

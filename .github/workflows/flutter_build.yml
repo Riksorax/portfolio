@@ -26,7 +26,7 @@ jobs:
           cache: true
 
       - name: Change directory to project root
-        working-directory: ${{ github.workspace }}/dlrg_weeze_manager
+        working-directory: ${{github.workspace}}/dlrg_weeze_manager
 
       - name: Install dependencies
         run: flutter pub get

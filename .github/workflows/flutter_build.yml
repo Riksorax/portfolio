@@ -23,7 +23,7 @@ jobs:
           flutter-version: 'stable'
           cache: true
       - name: Change directory to project root
-        working-directory: ${{ github.workspace }}/dlrg_weeze_manager
+        run: cd ${{ github.workspace }}/dlrg_weeze_manager
       - name: Install dependencies
         run: flutter pub get
       - name: Check Flutter Doctor

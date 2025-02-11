@@ -24,11 +24,11 @@ jobs:
         with:
           flutter-version: '3.27.4'
 
-      - name: Change directory to project root
-        run: cd ${{ github.workspace }}/dlrg_weeze_manager/dlrg_weeze_manager  # <-- Korrigiert: run verwendet
-      
       - name: List directory contents # <-- Hinzugefügt
         run: ls -lR ${{ github.workspace }}
+        
+      - name: Change directory to project root
+        run: cd ${{ github.workspace }}/dlrg_weeze_manager/dlrg_weeze_manager  # <-- Korrigiert: run verwendet
       
       - name: Install dependencies
         run: flutter pub get

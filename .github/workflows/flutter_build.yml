@@ -22,9 +22,9 @@ jobs:
         with:
           flutter-version: '3.27.4'
       - name: Change directory to project root
-        run: cd ${{ github.workspace }}  # <-- Korrigiert: run verwendet
-      - name: Install dependencies
-        run: flutter pub get
+        run: cd dlrg_weeze_manager && flutter pub get  # <-- Korrigiert: run verwendet
+      #- name: Install dependencies
+       # run: flutter pub get
       - name: Check Flutter Doctor
         run: flutter doctor -v
       - name: Build APK

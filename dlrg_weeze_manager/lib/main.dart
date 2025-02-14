@@ -8,9 +8,17 @@ import 'features/presentation/login_logout/login-screen.dart';
 import 'features/presentation/member_cards/member_cards.dart';
 import 'features/shared/presentation/theme/theme.dart';
 import 'features/shared/presentation/widgets/base_scaffold.dart';
+import 'features/shared/providers/auth_service.provider.dart';
 import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  // Async muss hinzugefügt werden
+  WidgetsFlutterBinding
+      .ensureInitialized(); // Sicherstellen, dass Widgets initialisiert sind
+  await Firebase.initializeApp(
+    // Firebase initialisieren
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -19,9 +27,8 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+        final authState =
+        ref.watch(authServiceNotifierProvider); // Überwache den Auth-Zustand
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -29,7 +36,25 @@ class MyApp extends ConsumerWidget {
       theme: const MaterialTheme(TextTheme()).light(),
       darkTheme: const MaterialTheme(TextTheme()).dark(),
       themeMode: ThemeMode.light,
-      initialRoute: '/',
+      home: Scaffold(
+        body: Center( // Center the content
+          child: authState.when(
+            data: (user) => user != null
+                ? const HomeScreen()
+                : const LoginScreen(),
+            error: (error, stackTrace) {
+              // Show SnackBar using Scaffold.of(context)
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Login Failed: $error")),
+                );
+              });
+              return const LoginScreen(); // Return LoginScreen on error
+            },
+            loading: () => const CircularProgressIndicator(), // Loading indicator
+          ),
+        ),
+      ),
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case '/login_screen':
@@ -79,7 +104,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         Navigator.pushNamed(context, '/entrance');
       case 3:
         Navigator.pushNamed(context, '/settings');
-
     }
   }
 }

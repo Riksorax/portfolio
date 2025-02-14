@@ -9,13 +9,11 @@ class AuthServiceNotifier extends _$AuthServiceNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
-  User? build() => _auth.currentUser;
-
-  User? get currentUser => _auth.currentUser;
+  AsyncValue<User?> build() => const AsyncLoading(); // Initialzustand ist Loading
 
   Future<User?> signInWithGoogle() async {
     try {
-      state = const AsyncLoading() as User?; // Ladezustand setzen
+      state = const AsyncLoading(); // Korrekt: Setze den Zustand auf Loading
 
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       final GoogleSignInAuthentication? googleAuth =
@@ -27,19 +25,19 @@ class AuthServiceNotifier extends _$AuthServiceNotifier {
       );
 
       final userCredential = await _auth.signInWithCredential(credential);
-      state = AsyncData(userCredential.user) as User?; // Erfolgszustand setzen
+      state = AsyncData(userCredential.user); // Korrekt: Setze den Zustand auf Data
       return userCredential.user;
-    } catch (e, st) { // Hier die Änderung: fange den StackTrace mit 'st'
-      state = AsyncError(e, st) as User?; // Hier die Änderung: übergebe den StackTrace
+    } catch (e, st) {
+      state = AsyncError(e, st); // Korrekt: Setze den Zustand auf Error
       print(e);
       return null;
     }
   }
 
   Future<void> signOut() async {
-    state = const AsyncLoading() as User?; // Ladezustand setzen
+    state = const AsyncLoading(); // Korrekt: Setze den Zustand auf Loading
     await _auth.signOut();
     await GoogleSignIn().signOut();
-    state = const AsyncData(null) as User?; // Erfolgszustand mit null setzen (abgemeldet)
+    state = const AsyncData(null); // Korrekt: Setze den Zustand auf Data (null)
   }
 }

@@ -17,7 +17,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final authService = ref.watch(authServiceNotifierProvider.notifier);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
+      appBar: AppBar(
+        title: const Text('Login'),
+        automaticallyImplyLeading: false, // Diese Zeile hinzufügen
+      ),
       body: Center(
         child: ElevatedButton(
           onPressed: () async {

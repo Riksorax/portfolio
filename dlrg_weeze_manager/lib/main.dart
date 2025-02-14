@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'features/presentation/general/settings/settings.dart';
 import 'features/presentation/indoor_pool/entrance.dart';
+import 'features/presentation/login_logout/login-screen.dart';
 import 'features/presentation/member_cards/member_cards.dart';
 import 'features/shared/presentation/theme/theme.dart';
 import 'features/shared/presentation/widgets/base_scaffold.dart';
@@ -31,6 +32,8 @@ class MyApp extends ConsumerWidget {
       initialRoute: '/',
       onGenerateRoute: (settings) {
         switch (settings.name) {
+          case '/login_screen':
+            return MaterialPageRoute(builder: (context) => const LoginScreen());
           case '/':
             return MaterialPageRoute(builder: (context) => const HomeScreen());
           case '/member_cards':
@@ -40,7 +43,7 @@ class MyApp extends ConsumerWidget {
           case '/settings':
             return MaterialPageRoute(builder: (context) => const Settings());
           default:
-            return MaterialPageRoute(builder: (context) => const HomeScreen());
+            return MaterialPageRoute(builder: (context) => const LoginScreen());
         }
       },
     );
@@ -69,11 +72,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void _onItemTapped(int index) {
     switch (index) {
       case 0:
-        Navigator.pushNamed(context, '/member_cards');
+        Navigator.pushNamed(context, '/login_screen');
       case 1:
-        Navigator.pushNamed(context, '/entrance');
+        Navigator.pushNamed(context, '/member_cards');
       case 2:
+        Navigator.pushNamed(context, '/entrance');
+      case 3:
         Navigator.pushNamed(context, '/settings');
+
     }
   }
 }

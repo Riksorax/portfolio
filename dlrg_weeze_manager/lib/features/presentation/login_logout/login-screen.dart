@@ -14,6 +14,7 @@ class LoginScreen extends ConsumerStatefulWidget {
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(authServiceNotifierProvider);
     final authService = ref.watch(authServiceNotifierProvider.notifier);
 
     return Scaffold(
@@ -22,9 +23,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         automaticallyImplyLeading: false, // Diese Zeile hinzufügen
       ),
       body: Center(
-        child: ElevatedButton(
+        child: authState.isLoading // Show loading indicator only when authenticating
+            ? const CircularProgressIndicator()
+            : ElevatedButton(
           onPressed: () async {
-            await authService.signInWithGoogle(); // Keine Navigation hier!
+            await authService.signInWithGoogle();
           },
           child: const Text('Mit Google anmelden'),
         ),

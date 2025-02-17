@@ -9,19 +9,24 @@ class AuthServiceNotifier extends _$AuthServiceNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
-  AsyncValue<User?> build() => const AsyncLoading(); // Initialzustand ist Loading
+  AsyncValue<User?> build() => const AsyncValue.data(null); // Initialzustand ist Loading
 
   Future<User?> signInWithGoogle() async {
+    state = const AsyncLoading(); // Korrekt: Setze den Zustand auf Loading
     try {
-      state = const AsyncLoading(); // Korrekt: Setze den Zustand auf Loading
 
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      final GoogleSignInAuthentication? googleAuth =
-      await googleUser?.authentication;
+      if (googleUser == null) {
+        state = const AsyncData(null); // Falls der Nutzer abbricht
+        return null;
+      }
+
+      final GoogleSignInAuthentication googleAuth =
+      await googleUser.authentication;
 
       final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
       );
 
       final userCredential = await _auth.signInWithCredential(credential);

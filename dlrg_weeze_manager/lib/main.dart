@@ -36,24 +36,26 @@ class MyApp extends ConsumerWidget {
       theme: const MaterialTheme(TextTheme()).light(),
       darkTheme: const MaterialTheme(TextTheme()).dark(),
       themeMode: ThemeMode.light,
-      home: Scaffold(
-        body: Center( // Center the content
-          child: authState.when(
-            data: (user) => user != null
-                ? const HomeScreen()
-                : const LoginScreen(),
-            error: (error, stackTrace) {
-              // Show SnackBar using Scaffold.of(context)
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Login Failed: $error")),
-                );
-              });
-              return const LoginScreen(); // Return LoginScreen on error
-            },
-            loading: () => const CircularProgressIndicator(), // Loading indicator
-          ),
-        ),
+      home: Builder( // Wrap with Builder
+        builder: (context) { // New context here
+          return Scaffold(
+            body: Center(
+              child: authState.when(
+                data: (user) => user != null ? const HomeScreen() : const LoginScreen(),
+                error: (error, stackTrace) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    print("Login Failed: $error");
+                    ScaffoldMessenger.of(context).showSnackBar( // Now this works!
+                      SnackBar(content: Text("Login Failed: $error")),
+                    );
+                  });
+                  return const LoginScreen();
+                },
+                loading: () => const CircularProgressIndicator(),
+              ),
+            ),
+          );
+        },
       ),
       onGenerateRoute: (settings) {
         switch (settings.name) {

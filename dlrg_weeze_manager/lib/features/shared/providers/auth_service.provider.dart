@@ -2,6 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../data/models/auth.dart';
+import 'firebase_repository.provider.dart';
+
 part 'auth_service.provider.g.dart';
 
 @riverpod
@@ -30,6 +33,19 @@ class AuthServiceNotifier extends _$AuthServiceNotifier {
       );
 
       final userCredential = await _auth.signInWithCredential(credential);
+      var userUid = userCredential.user!.uid;
+      var getAuth = await ref.read(GetAuthProvider(userUid).future);
+      if (getAuth == null) {
+        var authUser = Auth(UserData(status: AuthStatus.pending, name: userCredential.user!.displayName!, mail: userCredential.user!.email!, localGroup: "Weeze", userUid: userUid));
+        await ref.read(SetAuthProvider(authUser).future);
+        state = AsyncError("Account muss noch bestätigt werden.", StackTrace.current); // Falls der Nutzer abbricht
+        return null;
+      }
+      if (getAuth.user.status == AuthStatus.pending) {
+        state = AsyncError("Account noch nicht bestätigt.", StackTrace.current); // Falls der Nutzer abbricht
+        return null;
+      }
+
       state = AsyncData(userCredential.user); // Korrekt: Setze den Zustand auf Data
       return userCredential.user;
     } catch (e, st) {

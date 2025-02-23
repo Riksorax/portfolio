@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../shared/presentation/widgets/base_scaffold.dart';
 import 'widgets/member_card_template.dart';
+import 'widgets/user_settings.dart';
 
 class Settings extends ConsumerStatefulWidget {
   const Settings({super.key});
@@ -28,10 +29,11 @@ class _SettingsState extends ConsumerState<Settings> {
             fit: FlexFit.loose,
             child: MemberCardTemplate(),
           ),
-          SizedBox(
+          /*SizedBox(
             height: 50,
             width: deviceSize.width * 0.2,
-          ),
+          ),*/
+          UserSettings(),
         ],
       ),
     ), onItemTapped: (_) {

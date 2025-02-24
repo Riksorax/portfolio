@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../shared/presentation/widgets/base_scaffold.dart';
 import 'widgets/member_card_template.dart';
+import 'widgets/user_settings.dart';
 
 class Settings extends ConsumerStatefulWidget {
   const Settings({super.key});
@@ -10,7 +11,6 @@ class Settings extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<Settings> createState() => _SettingsState();
-
 }
 
 class _SettingsState extends ConsumerState<Settings> {
@@ -18,24 +18,25 @@ class _SettingsState extends ConsumerState<Settings> {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
 
-
-    return BaseScaffold(title: 'Einstellungen', body: Container(
-      margin: const EdgeInsets.all(24),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Flexible(
-            fit: FlexFit.loose,
-            child: MemberCardTemplate(),
-          ),
-          SizedBox(
-            height: 50,
-            width: deviceSize.width * 0.2,
-          ),
-        ],
+    return BaseScaffold(
+      title: 'Einstellungen',
+      body: Container(
+        margin: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Flexible(
+              fit: FlexFit.loose,
+              child: MemberCardTemplate(),
+            ),
+            Text("Alle Benutzer"),
+            UserSettings(),
+          ],
+        ),
       ),
-    ), onItemTapped: (_) {
-      // Logik zur Handhabung von Drawer-Taps
-    });
+      onItemTapped: (_) {
+        // Logik zur Handhabung von Drawer-Taps
+      },
+    );
   }
 }

@@ -1,26 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'entrance.notifier.dart';
+part of 'auth_service.provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$entranceNotifierHash() => r'fdefddb573c01bb163b17c66dca617440707e813';
+String _$authServiceNotifierHash() =>
+    r'75a22a6efd3143bcf1ec0242a9daea1c843c7643';
 
-/// See also [EntranceNotifier].
-@ProviderFor(EntranceNotifier)
-final entranceNotifierProvider =
-    AutoDisposeNotifierProvider<EntranceNotifier, List<Member>>.internal(
-  EntranceNotifier.new,
-  name: r'entranceNotifierProvider',
+/// See also [AuthServiceNotifier].
+@ProviderFor(AuthServiceNotifier)
+final authServiceNotifierProvider = AutoDisposeNotifierProvider<
+    AuthServiceNotifier, AsyncValue<User?>>.internal(
+  AuthServiceNotifier.new,
+  name: r'authServiceNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$entranceNotifierHash,
+      : _$authServiceNotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$EntranceNotifier = AutoDisposeNotifier<List<Member>>;
+typedef _$AuthServiceNotifier = AutoDisposeNotifier<AsyncValue<User?>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

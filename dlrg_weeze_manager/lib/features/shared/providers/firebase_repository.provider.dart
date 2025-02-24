@@ -1,6 +1,8 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../data/models/auth.dart';
 import '../data/models/member.dart';
 
 part 'firebase_repository.provider.g.dart';
@@ -8,7 +10,8 @@ part 'firebase_repository.provider.g.dart';
 @riverpod
 Future<bool> saveMemberRepo(SaveMemberRepoRef ref, Member member) async {
   try {
-    await _saveMember(member); // Wichtiger: await hinzufügen, um asynchrone Operation zu erwarten
+    await _saveMember(
+        member); // Wichtiger: await hinzufügen, um asynchrone Operation zu erwarten
     return true;
   } catch (e) {
     print(e);
@@ -21,7 +24,7 @@ Future<void> _saveMember(Member member) async {
   // Zugriff auf die Realtime Database
   if (getMember == null) {
     DatabaseReference dbRef =
-    FirebaseDatabase.instance.ref("members").child(member.memberNumber);
+        FirebaseDatabase.instance.ref("members").child(member.memberNumber);
     await dbRef.set(member.toMap());
   }
 }
@@ -40,7 +43,7 @@ Future<Member?> getMemberRepo(GetMemberRepoRef ref, String memberNumber) async {
 Future<Member?> _getMember(String memberNumber) async {
   // Zugriff auf den spezifischen Knoten in der Datenbank
   DatabaseReference dbRef =
-  FirebaseDatabase.instance.ref("members").child(memberNumber);
+      FirebaseDatabase.instance.ref("members").child(memberNumber);
 
   // Daten abrufen (asynchron)
   DataSnapshot snapshot = await dbRef.get();
@@ -48,26 +51,32 @@ Future<Member?> _getMember(String memberNumber) async {
   // Daten in ein Member-Objekt umwandeln
   if (snapshot.exists) {
     Map<dynamic, dynamic> data = snapshot.value as Map<dynamic, dynamic>;
-    Map<String, dynamic> stringMap = data.map((key, value) => MapEntry(key as String, value));
+    Map<String, dynamic> stringMap =
+        data.map((key, value) => MapEntry(key as String, value));
 
     // Zugriff auf memberCheckIn und Verarbeitung
     if (stringMap.containsKey('memberCheckIn')) {
       dynamic checkInData = stringMap['memberCheckIn'];
 
-      if (checkInData is Map) { // Altes Format: Map von Keys zu Check-in-Objekten
+      if (checkInData is Map) {
+        // Altes Format: Map von Keys zu Check-in-Objekten
         List<dynamic> checkInList = checkInData.values.toList();
-        checkInList.sort((a, b) => DateTime.parse(a['checkInDate']).compareTo(DateTime.parse(b['checkInDate'])));
+        checkInList.sort((a, b) => DateTime.parse(a['checkInDate'])
+            .compareTo(DateTime.parse(b['checkInDate'])));
 
         if (checkInList.length > 2) {
-          stringMap['memberCheckIn'] = checkInList.sublist(checkInList.length - 2); // Nur die letzten zwei
+          stringMap['memberCheckIn'] = checkInList
+              .sublist(checkInList.length - 2); // Nur die letzten zwei
         } else {
           stringMap['memberCheckIn'] = checkInList; // Alle falls weniger als 2
         }
-
-      } else if (checkInData is List) { // Neues Format: Direkte Liste von Check-in-Objekten
-        checkInData.sort((a, b) => DateTime.parse(a['checkInDate']).compareTo(DateTime.parse(b['checkInDate'])));
+      } else if (checkInData is List) {
+        // Neues Format: Direkte Liste von Check-in-Objekten
+        checkInData.sort((a, b) => DateTime.parse(a['checkInDate'])
+            .compareTo(DateTime.parse(b['checkInDate'])));
         if (checkInData.length > 2) {
-          stringMap['memberCheckIn'] = checkInData.sublist(checkInData.length - 2);
+          stringMap['memberCheckIn'] =
+              checkInData.sublist(checkInData.length - 2);
         } else {
           stringMap['memberCheckIn'] = checkInData; // Alle falls weniger als 2
         }
@@ -81,12 +90,12 @@ Future<Member?> _getMember(String memberNumber) async {
 }
 
 @riverpod
-Future<bool> updateMemberRepo(UpdateMemberRepoRef ref, Member member, int? index) async {
+Future<bool> updateMemberRepo(
+    UpdateMemberRepoRef ref, Member member, int? index) async {
   try {
     if (index == null) {
       await _updateMember(member);
-    }
-    else{
+    } else {
       _updateMemberPayed(member, index);
     }
     return true;
@@ -97,18 +106,20 @@ Future<bool> updateMemberRepo(UpdateMemberRepoRef ref, Member member, int? index
 }
 
 Future<void> _updateMember(Member member) async {
-  String memberNumberToUpdate = member.memberNumber; // Or however you get the correct member number
+  String memberNumberToUpdate =
+      member.memberNumber; // Or however you get the correct member number
 
   // Zugriff auf den spezifischen Knoten in der Datenbank
   DatabaseReference dbRef =
-  FirebaseDatabase.instance.ref("members").child(memberNumberToUpdate);
+      FirebaseDatabase.instance.ref("members").child(memberNumberToUpdate);
 
   // Daten abrufen (asynchron)
   await dbRef.update(member.toMap());
 }
 
 Future<void> _updateMemberPayed(Member member, int index) async {
-  DatabaseReference dbRef = FirebaseDatabase.instance.ref("members").child(member.memberNumber);
+  DatabaseReference dbRef =
+      FirebaseDatabase.instance.ref("members").child(member.memberNumber);
 
   // Pfad zum spezifischen Eintrag im memberCheckIn-Array erstellen
   String checkInPath = "memberCheckIn/$index";
@@ -121,7 +132,8 @@ Future<void> _updateMemberPayed(Member member, int index) async {
 }
 
 @riverpod
-Future<bool> deleteMemberRepo(DeleteMemberRepoRef ref, String memberNumber) async {
+Future<bool> deleteMemberRepo(
+    DeleteMemberRepoRef ref, String memberNumber) async {
   try {
     await _deleteMember(memberNumber);
     return true;
@@ -134,7 +146,7 @@ Future<bool> deleteMemberRepo(DeleteMemberRepoRef ref, String memberNumber) asyn
 Future<void> _deleteMember(String memberNumber) async {
   // Zugriff auf den spezifischen Knoten in der Datenbank
   DatabaseReference dbRef =
-  FirebaseDatabase.instance.ref("members").child(memberNumber);
+      FirebaseDatabase.instance.ref("members").child(memberNumber);
 
   // Mitglied aus der Datenbank löschen (asynchron)
   await dbRef.remove();
@@ -179,5 +191,79 @@ Future<List<Member>> _getAllMembers() async {
   } catch (e) {
     print("Fehler beim Laden der Mitglieder: $e");
     return [];
+  }
+}
+
+@riverpod
+Future<Auth?> getAuth(Ref ref, String userUid) async {
+  DatabaseReference dbRef =
+      FirebaseDatabase.instance.ref("auth").child(userUid);
+
+  // Daten abrufen (asynchron)
+  DataSnapshot snapshot = await dbRef.get();
+  if (snapshot.exists) {
+    try {
+      Map<dynamic, dynamic> data = snapshot.value as Map<dynamic, dynamic>;
+      Map<String, dynamic> stringMap =
+          data.map((key, value) => MapEntry(key as String, value));
+
+      print(stringMap);
+      return Auth.fromMap(stringMap);
+    } catch (e) {
+      print("Fehler bei der Konvertierung: $e");
+      return null; // Im Fehlerfall null zurückgeben
+    }
+  } else {
+    return null;
+  }
+}
+
+@riverpod
+Future<bool> setAuth(Ref ref, Auth auth) async {
+  DatabaseReference dbRef =
+      FirebaseDatabase.instance.ref("auth").child(auth.user.userUid);
+  await dbRef.set(auth.toMap());
+  return true;
+}
+
+@riverpod
+Future<List<Auth>> getListAuth(Ref ref) async {
+  DatabaseReference dbRef = FirebaseDatabase.instance.ref("auth");
+  // Get all child nodes (members) as a list of DataSnapshots
+  DataSnapshot snapshot = await dbRef.get();
+  if (snapshot.exists) {
+    List<Auth> authList = [];
+    for (DataSnapshot childSnapshot in snapshot.children) {
+      // Convert each child snapshot to a Member object
+      var data = childSnapshot.value;
+
+      if (data is Map) {
+        Map<String, dynamic> stringMap = Map<String, dynamic>.from(data);
+        authList.add(Auth.fromMap(stringMap));
+      } else {
+        print("Unexpected data format: $data");
+      }
+    }
+    return authList;
+  } else {
+    return [];
+  }
+}
+
+@riverpod
+Future<bool> updateAuth(Ref ref, Auth auth) async {
+  try{
+    String userUid = auth.user.userUid; // Or however you get the correct member number
+
+    // Zugriff auf den spezifischen Knoten in der Datenbank
+    DatabaseReference dbRef =
+    FirebaseDatabase.instance.ref("auth").child(userUid);
+
+    // Daten abrufen (asynchron)
+    await dbRef.update(auth.toMap());
+    return true;
+  }
+  catch (e) {
+    return false;
   }
 }

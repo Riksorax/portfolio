@@ -583,5 +583,408 @@ final getAllMembersRepoProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef GetAllMembersRepoRef = AutoDisposeFutureProviderRef<List<Member>>;
+String _$getAuthHash() => r'357ae6ecb34143fa89eb968ab751ef19277f1345';
+
+/// See also [getAuth].
+@ProviderFor(getAuth)
+const getAuthProvider = GetAuthFamily();
+
+/// See also [getAuth].
+class GetAuthFamily extends Family<AsyncValue<Auth?>> {
+  /// See also [getAuth].
+  const GetAuthFamily();
+
+  /// See also [getAuth].
+  GetAuthProvider call(
+    String userUid,
+  ) {
+    return GetAuthProvider(
+      userUid,
+    );
+  }
+
+  @override
+  GetAuthProvider getProviderOverride(
+    covariant GetAuthProvider provider,
+  ) {
+    return call(
+      provider.userUid,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'getAuthProvider';
+}
+
+/// See also [getAuth].
+class GetAuthProvider extends AutoDisposeFutureProvider<Auth?> {
+  /// See also [getAuth].
+  GetAuthProvider(
+    String userUid,
+  ) : this._internal(
+          (ref) => getAuth(
+            ref as GetAuthRef,
+            userUid,
+          ),
+          from: getAuthProvider,
+          name: r'getAuthProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getAuthHash,
+          dependencies: GetAuthFamily._dependencies,
+          allTransitiveDependencies: GetAuthFamily._allTransitiveDependencies,
+          userUid: userUid,
+        );
+
+  GetAuthProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.userUid,
+  }) : super.internal();
+
+  final String userUid;
+
+  @override
+  Override overrideWith(
+    FutureOr<Auth?> Function(GetAuthRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: GetAuthProvider._internal(
+        (ref) => create(ref as GetAuthRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        userUid: userUid,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<Auth?> createElement() {
+    return _GetAuthProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetAuthProvider && other.userUid == userUid;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, userUid.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin GetAuthRef on AutoDisposeFutureProviderRef<Auth?> {
+  /// The parameter `userUid` of this provider.
+  String get userUid;
+}
+
+class _GetAuthProviderElement extends AutoDisposeFutureProviderElement<Auth?>
+    with GetAuthRef {
+  _GetAuthProviderElement(super.provider);
+
+  @override
+  String get userUid => (origin as GetAuthProvider).userUid;
+}
+
+String _$setAuthHash() => r'd20b48a28ef635cdcdfcf62c656f7118763f0a78';
+
+/// See also [setAuth].
+@ProviderFor(setAuth)
+const setAuthProvider = SetAuthFamily();
+
+/// See also [setAuth].
+class SetAuthFamily extends Family<AsyncValue<bool>> {
+  /// See also [setAuth].
+  const SetAuthFamily();
+
+  /// See also [setAuth].
+  SetAuthProvider call(
+    Auth auth,
+  ) {
+    return SetAuthProvider(
+      auth,
+    );
+  }
+
+  @override
+  SetAuthProvider getProviderOverride(
+    covariant SetAuthProvider provider,
+  ) {
+    return call(
+      provider.auth,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'setAuthProvider';
+}
+
+/// See also [setAuth].
+class SetAuthProvider extends AutoDisposeFutureProvider<bool> {
+  /// See also [setAuth].
+  SetAuthProvider(
+    Auth auth,
+  ) : this._internal(
+          (ref) => setAuth(
+            ref as SetAuthRef,
+            auth,
+          ),
+          from: setAuthProvider,
+          name: r'setAuthProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$setAuthHash,
+          dependencies: SetAuthFamily._dependencies,
+          allTransitiveDependencies: SetAuthFamily._allTransitiveDependencies,
+          auth: auth,
+        );
+
+  SetAuthProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.auth,
+  }) : super.internal();
+
+  final Auth auth;
+
+  @override
+  Override overrideWith(
+    FutureOr<bool> Function(SetAuthRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: SetAuthProvider._internal(
+        (ref) => create(ref as SetAuthRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        auth: auth,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<bool> createElement() {
+    return _SetAuthProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is SetAuthProvider && other.auth == auth;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, auth.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin SetAuthRef on AutoDisposeFutureProviderRef<bool> {
+  /// The parameter `auth` of this provider.
+  Auth get auth;
+}
+
+class _SetAuthProviderElement extends AutoDisposeFutureProviderElement<bool>
+    with SetAuthRef {
+  _SetAuthProviderElement(super.provider);
+
+  @override
+  Auth get auth => (origin as SetAuthProvider).auth;
+}
+
+String _$getListAuthHash() => r'4c8b9fe6bfb660c8e3f471091e54ea8247ba140a';
+
+/// See also [getListAuth].
+@ProviderFor(getListAuth)
+final getListAuthProvider = AutoDisposeFutureProvider<List<Auth>>.internal(
+  getListAuth,
+  name: r'getListAuthProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$getListAuthHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef GetListAuthRef = AutoDisposeFutureProviderRef<List<Auth>>;
+String _$updateAuthHash() => r'f92b3723cd879e80058434b1ee066128d421fa14';
+
+/// See also [updateAuth].
+@ProviderFor(updateAuth)
+const updateAuthProvider = UpdateAuthFamily();
+
+/// See also [updateAuth].
+class UpdateAuthFamily extends Family<AsyncValue<bool>> {
+  /// See also [updateAuth].
+  const UpdateAuthFamily();
+
+  /// See also [updateAuth].
+  UpdateAuthProvider call(
+    Auth auth,
+  ) {
+    return UpdateAuthProvider(
+      auth,
+    );
+  }
+
+  @override
+  UpdateAuthProvider getProviderOverride(
+    covariant UpdateAuthProvider provider,
+  ) {
+    return call(
+      provider.auth,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'updateAuthProvider';
+}
+
+/// See also [updateAuth].
+class UpdateAuthProvider extends AutoDisposeFutureProvider<bool> {
+  /// See also [updateAuth].
+  UpdateAuthProvider(
+    Auth auth,
+  ) : this._internal(
+          (ref) => updateAuth(
+            ref as UpdateAuthRef,
+            auth,
+          ),
+          from: updateAuthProvider,
+          name: r'updateAuthProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$updateAuthHash,
+          dependencies: UpdateAuthFamily._dependencies,
+          allTransitiveDependencies:
+              UpdateAuthFamily._allTransitiveDependencies,
+          auth: auth,
+        );
+
+  UpdateAuthProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.auth,
+  }) : super.internal();
+
+  final Auth auth;
+
+  @override
+  Override overrideWith(
+    FutureOr<bool> Function(UpdateAuthRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: UpdateAuthProvider._internal(
+        (ref) => create(ref as UpdateAuthRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        auth: auth,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<bool> createElement() {
+    return _UpdateAuthProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is UpdateAuthProvider && other.auth == auth;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, auth.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin UpdateAuthRef on AutoDisposeFutureProviderRef<bool> {
+  /// The parameter `auth` of this provider.
+  Auth get auth;
+}
+
+class _UpdateAuthProviderElement extends AutoDisposeFutureProviderElement<bool>
+    with UpdateAuthRef {
+  _UpdateAuthProviderElement(super.provider);
+
+  @override
+  Auth get auth => (origin as UpdateAuthProvider).auth;
+}
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

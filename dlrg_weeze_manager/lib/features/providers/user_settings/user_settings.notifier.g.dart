@@ -1,26 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'entrance.notifier.dart';
+part of 'user_settings.notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$entranceNotifierHash() => r'fdefddb573c01bb163b17c66dca617440707e813';
+String _$userSettingsNotifierHash() =>
+    r'c0c77dc48b6fbff29fecf1386d56570109a0683f';
 
-/// See also [EntranceNotifier].
-@ProviderFor(EntranceNotifier)
-final entranceNotifierProvider =
-    AutoDisposeNotifierProvider<EntranceNotifier, List<Member>>.internal(
-  EntranceNotifier.new,
-  name: r'entranceNotifierProvider',
+/// See also [UserSettingsNotifier].
+@ProviderFor(UserSettingsNotifier)
+final userSettingsNotifierProvider =
+    AutoDisposeAsyncNotifierProvider<UserSettingsNotifier, List<Auth>>.internal(
+  UserSettingsNotifier.new,
+  name: r'userSettingsNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$entranceNotifierHash,
+      : _$userSettingsNotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$EntranceNotifier = AutoDisposeNotifier<List<Member>>;
+typedef _$UserSettingsNotifier = AutoDisposeAsyncNotifier<List<Auth>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

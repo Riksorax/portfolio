@@ -11,7 +11,6 @@ class Settings extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<Settings> createState() => _SettingsState();
-
 }
 
 class _SettingsState extends ConsumerState<Settings> {
@@ -19,25 +18,25 @@ class _SettingsState extends ConsumerState<Settings> {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
 
-
-    return BaseScaffold(title: 'Einstellungen', body: Container(
-      margin: const EdgeInsets.all(24),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Flexible(
-            fit: FlexFit.loose,
-            child: MemberCardTemplate(),
-          ),
-          /*SizedBox(
-            height: 50,
-            width: deviceSize.width * 0.2,
-          ),*/
-          UserSettings(),
-        ],
+    return BaseScaffold(
+      title: 'Einstellungen',
+      body: Container(
+        margin: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Flexible(
+              fit: FlexFit.loose,
+              child: MemberCardTemplate(),
+            ),
+            Text("Alle Benutzer"),
+            UserSettings(),
+          ],
+        ),
       ),
-    ), onItemTapped: (_) {
-      // Logik zur Handhabung von Drawer-Taps
-    });
+      onItemTapped: (_) {
+        // Logik zur Handhabung von Drawer-Taps
+      },
+    );
   }
 }

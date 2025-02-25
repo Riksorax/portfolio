@@ -13,7 +13,7 @@ class UserSettingsNotifier extends _$UserSettingsNotifier {
   }
 
   Future<List<Auth>> _getAllUsers() async =>
-      await ref.read(getListAuthProvider.future);
+      await ref.read(getListAuthRepoProvider.future);
 
   void updateUser(Auth auth) async{
     try{

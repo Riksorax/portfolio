@@ -16,9 +16,10 @@ class _AllUserState extends ConsumerState<UserSettings> {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     var userList = ref.watch(userSettingsNotifierProvider).value;
-    if(userList == null){
+    if (userList == null) {
       return const Center(child: CircularProgressIndicator());
     }
+
     return ListView.builder(
       physics: const BouncingScrollPhysics(),
       shrinkWrap: true,
@@ -32,15 +33,22 @@ class _AllUserState extends ConsumerState<UserSettings> {
             enabled: status == AuthStatus.pending,
             initialSelection: status,
             dropdownMenuEntries: AuthStatus.values
-                .map((AuthStatus status) =>
-                    DropdownMenuEntry(value: status, label: status.name))
+                .map(
+                  (AuthStatus status) => DropdownMenuEntry(
+                    value: status,
+                    label: status == AuthStatus.pending
+                        ? "Ausstehend"
+                        : "Bestätigt",
+                  ),
+                )
                 .toList(),
             label: Text(userList[index].user.name),
             onSelected: status == AuthStatus.pending
                 ? (value) {
-                  AuthStatus temp = value as AuthStatus;
-                  userList[index].user.status = temp;
-                    ref.read(userSettingsNotifierProvider.notifier)
+                    AuthStatus temp = value as AuthStatus;
+                    userList[index].user.status = temp;
+                    ref
+                        .read(userSettingsNotifierProvider.notifier)
                         .updateUser(userList[index]);
                   }
                 : null,

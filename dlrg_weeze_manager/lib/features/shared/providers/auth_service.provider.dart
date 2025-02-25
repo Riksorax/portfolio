@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../data/models/auth.dart';
 import 'firebase_repository.provider.dart';
+import 'user_service.provider.dart';
 
 part 'auth_service.provider.g.dart';
 
@@ -34,10 +35,10 @@ class AuthServiceNotifier extends _$AuthServiceNotifier {
 
       final userCredential = await _auth.signInWithCredential(credential);
       var userUid = userCredential.user!.uid;
-      var getAuth = await ref.read(GetAuthProvider(userUid).future);
+      var getAuth = await ref.read(GetAuthRepoProvider(userUid).future);
       if (getAuth == null) {
-        var authUser = Auth(UserData(status: AuthStatus.pending, name: userCredential.user!.displayName!, mail: userCredential.user!.email!, localGroup: "Weeze", userUid: userUid));
-        await ref.read(SetAuthProvider(authUser).future);
+        var authUser = Auth(UserData(status: AuthStatus.pending, name: userCredential.user!.displayName!, mail: userCredential.user!.email!, localGroup: "Weeze", userUid: userUid), Role.member);
+        await ref.read(SetAuthRepoProvider(authUser).future);
         state = AsyncError("Account muss noch bestätigt werden.", StackTrace.current); // Falls der Nutzer abbricht
         return null;
       }
@@ -45,7 +46,7 @@ class AuthServiceNotifier extends _$AuthServiceNotifier {
         state = AsyncError("Account noch nicht bestätigt.", StackTrace.current); // Falls der Nutzer abbricht
         return null;
       }
-
+      ref.read(userServiceNotifierProvider.notifier).getUser(userUid);
       state = AsyncData(userCredential.user); // Korrekt: Setze den Zustand auf Data
       return userCredential.user;
     } catch (e, st) {

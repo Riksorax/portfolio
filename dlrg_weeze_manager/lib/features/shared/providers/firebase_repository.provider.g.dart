@@ -583,29 +583,29 @@ final getAllMembersRepoProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef GetAllMembersRepoRef = AutoDisposeFutureProviderRef<List<Member>>;
-String _$getAuthHash() => r'357ae6ecb34143fa89eb968ab751ef19277f1345';
+String _$getAuthRepoHash() => r'c8d8833bacff2d4e9dbb6a82350f12923326daa0';
 
-/// See also [getAuth].
-@ProviderFor(getAuth)
-const getAuthProvider = GetAuthFamily();
+/// See also [getAuthRepo].
+@ProviderFor(getAuthRepo)
+const getAuthRepoProvider = GetAuthRepoFamily();
 
-/// See also [getAuth].
-class GetAuthFamily extends Family<AsyncValue<Auth?>> {
-  /// See also [getAuth].
-  const GetAuthFamily();
+/// See also [getAuthRepo].
+class GetAuthRepoFamily extends Family<AsyncValue<Auth?>> {
+  /// See also [getAuthRepo].
+  const GetAuthRepoFamily();
 
-  /// See also [getAuth].
-  GetAuthProvider call(
+  /// See also [getAuthRepo].
+  GetAuthRepoProvider call(
     String userUid,
   ) {
-    return GetAuthProvider(
+    return GetAuthRepoProvider(
       userUid,
     );
   }
 
   @override
-  GetAuthProvider getProviderOverride(
-    covariant GetAuthProvider provider,
+  GetAuthRepoProvider getProviderOverride(
+    covariant GetAuthRepoProvider provider,
   ) {
     return call(
       provider.userUid,
@@ -624,31 +624,32 @@ class GetAuthFamily extends Family<AsyncValue<Auth?>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'getAuthProvider';
+  String? get name => r'getAuthRepoProvider';
 }
 
-/// See also [getAuth].
-class GetAuthProvider extends AutoDisposeFutureProvider<Auth?> {
-  /// See also [getAuth].
-  GetAuthProvider(
+/// See also [getAuthRepo].
+class GetAuthRepoProvider extends AutoDisposeFutureProvider<Auth?> {
+  /// See also [getAuthRepo].
+  GetAuthRepoProvider(
     String userUid,
   ) : this._internal(
-          (ref) => getAuth(
-            ref as GetAuthRef,
+          (ref) => getAuthRepo(
+            ref as GetAuthRepoRef,
             userUid,
           ),
-          from: getAuthProvider,
-          name: r'getAuthProvider',
+          from: getAuthRepoProvider,
+          name: r'getAuthRepoProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$getAuthHash,
-          dependencies: GetAuthFamily._dependencies,
-          allTransitiveDependencies: GetAuthFamily._allTransitiveDependencies,
+                  : _$getAuthRepoHash,
+          dependencies: GetAuthRepoFamily._dependencies,
+          allTransitiveDependencies:
+              GetAuthRepoFamily._allTransitiveDependencies,
           userUid: userUid,
         );
 
-  GetAuthProvider._internal(
+  GetAuthRepoProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -662,12 +663,12 @@ class GetAuthProvider extends AutoDisposeFutureProvider<Auth?> {
 
   @override
   Override overrideWith(
-    FutureOr<Auth?> Function(GetAuthRef provider) create,
+    FutureOr<Auth?> Function(GetAuthRepoRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: GetAuthProvider._internal(
-        (ref) => create(ref as GetAuthRef),
+      override: GetAuthRepoProvider._internal(
+        (ref) => create(ref as GetAuthRepoRef),
         from: from,
         name: null,
         dependencies: null,
@@ -680,12 +681,12 @@ class GetAuthProvider extends AutoDisposeFutureProvider<Auth?> {
 
   @override
   AutoDisposeFutureProviderElement<Auth?> createElement() {
-    return _GetAuthProviderElement(this);
+    return _GetAuthRepoProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is GetAuthProvider && other.userUid == userUid;
+    return other is GetAuthRepoProvider && other.userUid == userUid;
   }
 
   @override
@@ -699,42 +700,42 @@ class GetAuthProvider extends AutoDisposeFutureProvider<Auth?> {
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin GetAuthRef on AutoDisposeFutureProviderRef<Auth?> {
+mixin GetAuthRepoRef on AutoDisposeFutureProviderRef<Auth?> {
   /// The parameter `userUid` of this provider.
   String get userUid;
 }
 
-class _GetAuthProviderElement extends AutoDisposeFutureProviderElement<Auth?>
-    with GetAuthRef {
-  _GetAuthProviderElement(super.provider);
+class _GetAuthRepoProviderElement
+    extends AutoDisposeFutureProviderElement<Auth?> with GetAuthRepoRef {
+  _GetAuthRepoProviderElement(super.provider);
 
   @override
-  String get userUid => (origin as GetAuthProvider).userUid;
+  String get userUid => (origin as GetAuthRepoProvider).userUid;
 }
 
-String _$setAuthHash() => r'd20b48a28ef635cdcdfcf62c656f7118763f0a78';
+String _$setAuthRepoHash() => r'baa12633385bef053f1ce485297253667d8512fe';
 
-/// See also [setAuth].
-@ProviderFor(setAuth)
-const setAuthProvider = SetAuthFamily();
+/// See also [setAuthRepo].
+@ProviderFor(setAuthRepo)
+const setAuthRepoProvider = SetAuthRepoFamily();
 
-/// See also [setAuth].
-class SetAuthFamily extends Family<AsyncValue<bool>> {
-  /// See also [setAuth].
-  const SetAuthFamily();
+/// See also [setAuthRepo].
+class SetAuthRepoFamily extends Family<AsyncValue<bool>> {
+  /// See also [setAuthRepo].
+  const SetAuthRepoFamily();
 
-  /// See also [setAuth].
-  SetAuthProvider call(
+  /// See also [setAuthRepo].
+  SetAuthRepoProvider call(
     Auth auth,
   ) {
-    return SetAuthProvider(
+    return SetAuthRepoProvider(
       auth,
     );
   }
 
   @override
-  SetAuthProvider getProviderOverride(
-    covariant SetAuthProvider provider,
+  SetAuthRepoProvider getProviderOverride(
+    covariant SetAuthRepoProvider provider,
   ) {
     return call(
       provider.auth,
@@ -753,31 +754,32 @@ class SetAuthFamily extends Family<AsyncValue<bool>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'setAuthProvider';
+  String? get name => r'setAuthRepoProvider';
 }
 
-/// See also [setAuth].
-class SetAuthProvider extends AutoDisposeFutureProvider<bool> {
-  /// See also [setAuth].
-  SetAuthProvider(
+/// See also [setAuthRepo].
+class SetAuthRepoProvider extends AutoDisposeFutureProvider<bool> {
+  /// See also [setAuthRepo].
+  SetAuthRepoProvider(
     Auth auth,
   ) : this._internal(
-          (ref) => setAuth(
-            ref as SetAuthRef,
+          (ref) => setAuthRepo(
+            ref as SetAuthRepoRef,
             auth,
           ),
-          from: setAuthProvider,
-          name: r'setAuthProvider',
+          from: setAuthRepoProvider,
+          name: r'setAuthRepoProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$setAuthHash,
-          dependencies: SetAuthFamily._dependencies,
-          allTransitiveDependencies: SetAuthFamily._allTransitiveDependencies,
+                  : _$setAuthRepoHash,
+          dependencies: SetAuthRepoFamily._dependencies,
+          allTransitiveDependencies:
+              SetAuthRepoFamily._allTransitiveDependencies,
           auth: auth,
         );
 
-  SetAuthProvider._internal(
+  SetAuthRepoProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -791,12 +793,12 @@ class SetAuthProvider extends AutoDisposeFutureProvider<bool> {
 
   @override
   Override overrideWith(
-    FutureOr<bool> Function(SetAuthRef provider) create,
+    FutureOr<bool> Function(SetAuthRepoRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: SetAuthProvider._internal(
-        (ref) => create(ref as SetAuthRef),
+      override: SetAuthRepoProvider._internal(
+        (ref) => create(ref as SetAuthRepoRef),
         from: from,
         name: null,
         dependencies: null,
@@ -809,12 +811,12 @@ class SetAuthProvider extends AutoDisposeFutureProvider<bool> {
 
   @override
   AutoDisposeFutureProviderElement<bool> createElement() {
-    return _SetAuthProviderElement(this);
+    return _SetAuthRepoProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is SetAuthProvider && other.auth == auth;
+    return other is SetAuthRepoProvider && other.auth == auth;
   }
 
   @override
@@ -828,35 +830,36 @@ class SetAuthProvider extends AutoDisposeFutureProvider<bool> {
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin SetAuthRef on AutoDisposeFutureProviderRef<bool> {
+mixin SetAuthRepoRef on AutoDisposeFutureProviderRef<bool> {
   /// The parameter `auth` of this provider.
   Auth get auth;
 }
 
-class _SetAuthProviderElement extends AutoDisposeFutureProviderElement<bool>
-    with SetAuthRef {
-  _SetAuthProviderElement(super.provider);
+class _SetAuthRepoProviderElement extends AutoDisposeFutureProviderElement<bool>
+    with SetAuthRepoRef {
+  _SetAuthRepoProviderElement(super.provider);
 
   @override
-  Auth get auth => (origin as SetAuthProvider).auth;
+  Auth get auth => (origin as SetAuthRepoProvider).auth;
 }
 
-String _$getListAuthHash() => r'4c8b9fe6bfb660c8e3f471091e54ea8247ba140a';
+String _$getListAuthRepoHash() => r'bcc8dea5114c7cc17f4b73e716bad823f5922316';
 
-/// See also [getListAuth].
-@ProviderFor(getListAuth)
-final getListAuthProvider = AutoDisposeFutureProvider<List<Auth>>.internal(
-  getListAuth,
-  name: r'getListAuthProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$getListAuthHash,
+/// See also [getListAuthRepo].
+@ProviderFor(getListAuthRepo)
+final getListAuthRepoProvider = AutoDisposeFutureProvider<List<Auth>>.internal(
+  getListAuthRepo,
+  name: r'getListAuthRepoProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getListAuthRepoHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef GetListAuthRef = AutoDisposeFutureProviderRef<List<Auth>>;
+typedef GetListAuthRepoRef = AutoDisposeFutureProviderRef<List<Auth>>;
 String _$updateAuthHash() => r'f92b3723cd879e80058434b1ee066128d421fa14';
 
 /// See also [updateAuth].

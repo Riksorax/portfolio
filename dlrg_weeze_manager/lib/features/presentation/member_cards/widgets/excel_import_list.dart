@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 
 import '../../../providers/excel_import/excel_import.notifier.dart';
 import '../../../providers/file_picker/file_picker.provider.dart';
+import '../../../shared/data/models/auth.dart';
+import '../../../shared/providers/user_service.provider.dart';
 
 class ExcelImportList extends ConsumerStatefulWidget {
   const ExcelImportList({super.key});
@@ -20,19 +22,38 @@ class _ExcelImportListState extends ConsumerState<ExcelImportList> {
 
     final excelImport = ref.watch(excelImportNotifierProvider);
 
+    final auth = ref.watch(userServiceNotifierProvider);
+
+
+
+
     Future.delayed(const Duration(seconds: 5), () {
       // deleayed code here
       ref.watch(excelImportNotifierProvider);
     });
 
 
-    void getFilePath() async {
+    void getFilePathAsync() async {
       var filePath = await ref
           .watch(filePickerNotifierProvider.notifier)
           .getExcelFilePicker();
       if (filePath!.isNotEmpty) {
         ref.watch(excelImportNotifierProvider.notifier).getExcelImport(filePath);
       }
+    }
+
+    bool checkRole(){
+      if (auth.value != null) {
+        var userRole = auth.value?.role;
+        if (userRole == Role.admin) {
+          getFilePathAsync();
+          return true;
+        }
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Wende dich bitte an einen Admin fürs Karten erstellen")),
+      );
+      return false;
     }
 
     return Container(
@@ -46,7 +67,7 @@ class _ExcelImportListState extends ConsumerState<ExcelImportList> {
       child: Column(
         children: [
           OutlinedButton(
-            onPressed: getFilePath,
+            onPressed: checkRole,
             child: const Text("Excel Datei wählen"),
           ),
           Expanded(

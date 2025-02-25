@@ -195,7 +195,7 @@ Future<List<Member>> _getAllMembers() async {
 }
 
 @riverpod
-Future<Auth?> getAuth(Ref ref, String userUid) async {
+Future<Auth?> getAuthRepo(Ref ref, String userUid) async {
   DatabaseReference dbRef =
       FirebaseDatabase.instance.ref("auth").child(userUid);
 
@@ -219,7 +219,7 @@ Future<Auth?> getAuth(Ref ref, String userUid) async {
 }
 
 @riverpod
-Future<bool> setAuth(Ref ref, Auth auth) async {
+Future<bool> setAuthRepo(Ref ref, Auth auth) async {
   DatabaseReference dbRef =
       FirebaseDatabase.instance.ref("auth").child(auth.user.userUid);
   await dbRef.set(auth.toMap());
@@ -227,7 +227,7 @@ Future<bool> setAuth(Ref ref, Auth auth) async {
 }
 
 @riverpod
-Future<List<Auth>> getListAuth(Ref ref) async {
+Future<List<Auth>> getListAuthRepo(Ref ref) async {
   DatabaseReference dbRef = FirebaseDatabase.instance.ref("auth");
   // Get all child nodes (members) as a list of DataSnapshots
   DataSnapshot snapshot = await dbRef.get();

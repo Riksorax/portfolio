@@ -1,22 +1,34 @@
 class Auth {
   final UserData user;
-
-  Auth(this.user);
+  final Role role;
+  Auth(this.user, this.role);
 
   factory Auth.fromMap(Map<String, dynamic> json) {
-    try {// Get the 'auth' value
-        final user = UserData.fromMap(json["user"]);
-        return Auth(user);
-
+    try {
+      // Get the 'auth' value
+      final user = UserData.fromMap(json["user"]);
+      return Auth(
+        user,
+        json['role'] != null ? Role.values[json['role'] as int] : Role.member,
+      );
     } catch (e) {
       print("Error in Auth.fromJson: $e");
-      return Auth(UserData(status: AuthStatus.pending, name: "", mail: "", localGroup: "", userUid: ""));
+      return Auth(
+        UserData(
+            status: AuthStatus.pending,
+            name: "",
+            mail: "",
+            localGroup: "",
+            userUid: ""),
+        Role.member,
+      );
     }
   }
 
   Map<String, dynamic> toMap() {
     return {
       'user': user.toMap(), // Ruft die toMap-Funktion von UserData auf
+      'role': role.index, // Speichert den Index des Enums
     };
   }
 }
@@ -40,13 +52,15 @@ class UserData {
     final map = json.map((key, value) => MapEntry(key.toString(), value));
 
     return UserData(
-      name: map['name'] as String ?? '', // Provide default if null
+      name: map['name'] as String, // Provide default if null
       mail: map['mail'] as String? ?? '', // Provide default if null, allow null
       status: map['status'] != null
           ? AuthStatus.values[map['status'] as int]
           : AuthStatus.pending, // Handle enum conversion safely
-      localGroup: map['localGroup'] as String? ?? '', // Provide default if null, allow null
-      userUid: map['userUid'] as String? ?? '', // Provide default if null, allow null
+      localGroup: map['localGroup'] as String? ??
+          '', // Provide default if null, allow null
+      userUid: map['userUid'] as String? ??
+          '', // Provide default if null, allow null
     );
   }
 
@@ -62,3 +76,5 @@ class UserData {
 }
 
 enum AuthStatus { pending, confirmed }
+
+enum Role { admin, member }

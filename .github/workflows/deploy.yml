@@ -43,7 +43,7 @@ jobs:
 
             # In das Projektverzeichnis wechseln und die neuesten Änderungen holen
             cd "$PROJECT_DIR"
-            git pull origin main
+            git pull origin master
 
             # Das neueste Docker-Image herunterladen
             sudo docker compose pull

@@ -1,0 +1,27 @@
+services:
+  portfolio: # Eindeutiger Service-Name für dieses Projekt
+    image: riksorax/portfolio:latest # Das Image, das von GitHub Actions gebaut wird
+    container_name: portfolio # Eindeutiger Container-Name
+    restart: unless-stopped
+    networks:
+      - traefik-proxy # Verbindet sich mit dem externen Netzwerk von Traefik
+    labels:
+      # Traefik für diesen Container aktivieren
+      - "traefik.enable=true"
+      # HTTPS-Router, der auf die Domain hört
+      - "traefik.http.routers.portfolio.rule=Host(`frank-speu.de`)"
+      - "traefik.http.routers.portfolio.entrypoints=websecure"
+      - "traefik.http.routers.portfolio.tls.certresolver=letsencrypt"
+      # Service-Definition: Sagt Traefik, auf welchem Port die App im Container läuft
+      - "traefik.http.services.portfolio.loadbalancer.server.port=8080"
+      # HTTP-Router für die automatische Umleitung auf HTTPS
+      - "traefik.http.routers.portfolio-web.rule=Host(`frank-speu.de`)"
+      - "traefik.http.routers.portfolio-web.entrypoints=web"
+      - "traefik.http.routers.portfolio-web.middlewares=https-redirect"
+      # Definition der Umleitungs-Middleware
+      - "traefik.http.middlewares.https-redirect.redirectscheme.scheme=https"
+
+# Definiert, dass das Netzwerk "traefik-proxy" bereits existiert und nicht neu erstellt werden soll
+networks:
+  traefik-proxy:
+    external: true

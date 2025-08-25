@@ -18,7 +18,7 @@ interface BoundingClientRect {
  */
 // Behalten Sie die Signatur der Test Version 2 bei (2 Parameter)
 export function initScrollSpy(dotNetHelper: any, sectionIds: string[], navbarHeight: number): Disposable | null {
-    
+
     // <-- HIER TRITT DER FEHLER 'sectionIds.map is not a function' AUF, WENN sectionIds KEIN ARRAY IST -->
     const sections: HTMLElement[] = sectionIds
         .map(id => document.getElementById(id))
@@ -33,7 +33,7 @@ export function initScrollSpy(dotNetHelper: any, sectionIds: string[], navbarHei
     const scrollHandler = () => {
         let currentSectionId: string | null = null;
         const scrollY: number = window.scrollY;
-        
+
         // ... Der Rest der scrollHandler Logik (Berechnung der aktiven Sektion, ohne dotNetHelper Aufruf) bleibt gleich ...
         for (let i = sections.length - 1; i >= 0; i--) {
             const section = sections[i];
@@ -68,10 +68,10 @@ export function initScrollSpy(dotNetHelper: any, sectionIds: string[], navbarHei
 
     // Event Listener registrieren
     window.addEventListener("scroll", scrollHandler);
-    
+
     // RUFT DEN HANDLER NUR EINMAL SOFORT AUF (KEIN EVENT-LISTENER REGISTRIERT)
     scrollHandler();
-    
+
     // Gibt ein Dummy Disposable Objekt zurück
     return {
         dispose: () => {
@@ -80,32 +80,23 @@ export function initScrollSpy(dotNetHelper: any, sectionIds: string[], navbarHei
     };
 }
 
-/**
- * Scrollt das Fenster sanft zu einer Zielsektion. DIESE FUNKTION WIRD EXPORTIERT.
- * @param sectionId - Die ID der Sektion.
- * @param navbarHeight - Die Höhe der Navbar.
- */
-export function scrollToSection(sectionId: string, navbarHeight: number): void {
-    const targetElement = document.getElementById(sectionId);
-    if (targetElement) {
+
+// Scroll-Effekt und Hilfsfunktionen für Smooth Navigation
+export function scrollToSection(sectionId: string, navbarHeight: number = 0) {
+    const section = document.getElementById(sectionId);
+    if (section) {
+        const rect = section.getBoundingClientRect();
+        const scrollTop = window.scrollY + rect.top - navbarHeight;
+
         window.scrollTo({
-            top: targetElement.offsetTop - navbarHeight,
+            top: scrollTop,
             behavior: 'smooth'
         });
     }
 }
 
-/**
- * Holt das Bounding Client Rectangle eines Elements. DIESE FUNKTION WIRD EXPORTIERT.
- * @param element - Das HTML-Element.
- * @returns Das BoundingClientRect oder null.
- */
-export function getElementBoundingClientRect(element: HTMLElement | null | undefined): BoundingClientRect | null {
-    if (element) {
-        const rect = element.getBoundingClientRect();
-        return {
-            height: rect.height
-        };
-    }
-    return null;
+export function getElementBoundingClientRect(element: HTMLElement | null) {
+    if (!element) return { height: 0 };
+    const rect = element.getBoundingClientRect();
+    return { height: rect.height };
 }

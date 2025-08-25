@@ -1,0 +1,117 @@
+﻿@using Portfolio.Models
+@using Portfolio.Services
+<section id="projects" class="section">
+    <div class="container">
+        <h2 class="section-title text-center">Meine Projekte</h2>
+        <p class="text-center mb-5">Hier sind einige meiner aktuellen öffentlichen Projekte von GitHub. </p>
+
+        @* Dynamischer Bereich für Projekte - Verwendet die 'projects' Variable aus Home.razor.cs *@
+        <div class="row">
+            @if (_isLoadingProjects)
+            {
+                <div class="col-12 text-center">
+                    <p>Projekte werden geladen...</p>
+                    @* Optional: Lade-Spinner hier einfügen *@
+                </div>
+            }
+            else if (!string.IsNullOrEmpty(_projectsErrorMessage))
+            {
+                <div class="col-12 text-center text-danger">
+                    <p>Fehler beim Laden der Projekte: @_projectsErrorMessage</p>
+                </div>
+            }
+            else if (_projects.Any())
+            {
+                @foreach (var project in _projects)
+                {
+                    <div class="col-12 col-md-6 col-lg-4 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="card-title">@project.Name</h3>
+                                <p class="card-text">@(project.Description ?? "Keine Beschreibung verfügbar.")</p>
+                                @if (project.Topics != null && project.Topics.Any())
+                                {
+                                    <div class="mb-3">
+                                        @foreach (var topic in project.Topics)
+                                        {
+                                            <span class="tag">@topic</span>
+                                        }
+                                    </div>
+                                }
+                                else if (!string.IsNullOrEmpty(project.PrimaryLanguage))
+                                {
+                                    <div class="mb-3">
+                                        <span class="tag">@project.PrimaryLanguage</span>
+                                    </div>
+                                }
+                            </div>
+                            <div class="card-footer">
+                                @* CI Status Indikatoren - immer noch statisch/Demo *@
+                                <div>
+                                    <span class="status-indicator status-warning"></span> @* Beispiel: Status "In Progress" *@
+                                    <span class="status-text">Status (Demo)</span>
+                                </div>
+                                <a href="@project.HtmlUrl" class="repo-link" target="_blank">
+                                    <i class="fab fa-github"></i>Repository
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12 text-center">
+                    <p>Keine öffentlichen Projekte gefunden.</p>
+                </div>
+            }
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="https://github.com/Riksorax" class="btn btn-outline" target="_blank"> @* <-- Ersetzen Sie Riksorax durch Ihren Benutzernamen *@
+                <i class="fab fa-github mr-2"></i>Alle Projekte auf GitHub
+            </a>
+        </div>
+    </div>
+</section>
+
+@code
+{
+    [Inject]
+    public GitHubService GitHubService { get; set; } = null!;
+    
+    [Inject]
+    public ILogger<ProjectsSection> Logger { get; set; } = null!;
+    
+    // --- State for Projects Section ---
+    private List<GitHubProject> _projects = [];
+    private bool _isLoadingProjects = true;
+    private string? _projectsErrorMessage;
+    
+    private async Task FetchGitHubProjects(string username)
+    {
+        _isLoadingProjects = true;
+        _projectsErrorMessage = null;
+        _projects.Clear();
+
+        try
+        {
+            _projects = await GitHubService.GetPublicProjectsAsync(username);
+        }
+        catch (Exception ex)
+        {
+            _projectsErrorMessage = ex.Message;
+            Logger.LogError(ex, "Fehler beim Abrufen der GitHub-Projekte."); // Optional
+        }
+        finally
+        {
+            _isLoadingProjects = false;
+            StateHasChanged(); // UI aktualisieren
+        }
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await FetchGitHubProjects("Riksorax");
+    }
+}

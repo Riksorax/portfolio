@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="250" height="250"><svg width="250" height="250" viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg" style="color: var(--primary, #3b82f6); display:block; margin:auto;">
+    <g transform="rotate(-15 125 125)">
+        <path d="M125,10
+             C170,10 230,40 240,90
+             C250,140 210,200 160,220
+             C110,240 50,220 30,170
+             C10,120 30,60 70,35
+             C90,22 110,10 125,10 Z" fill="currentColor" opacity="0.1"></path>
+    </g>
+
+    <g stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <!-- Linkes Chevron -->
+        <path d="M105 110 L85 125 L105 140"></path>
+        <!-- Rechtes Chevron -->
+        <path d="M145 110 L165 125 L145 140"></path>
+        <!-- Slash -->
+        <path d="M130 110 L120 140"></path>
+    </g>
+</svg><style>@media (prefers-color-scheme: light) { :root { filter: none; } }
+@media (prefers-color-scheme: dark) { :root { filter: none; } }
+</style></svg>

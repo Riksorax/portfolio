@@ -1,23 +1,19 @@
 ﻿@using System.Text.Json.Serialization
-<section id="home" class="hero">
+<section id="home" class="hero" xmlns="http://www.w3.org/1999/html">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-12 col-lg-8">
                 <h1>Hallo, ich bin <span class="text-primary">Frank Speulmans</span></h1>
                 <h2>Software Developer</h2>
-                <p>Ich entwickle elegante Lösungen für komplexe Probleme und setze Ideen in funktionalen Code um.</p>
+                <p>ein leidenschaftlicher Software-Entwickler mit einem Fokus auf moderne Web-Anwendungen und native Apps. <br>
+                    Mich begeistert es, aus komplexen Herausforderungen elegante und benutzerfreundliche Lösungen zu entwickeln.</p>
                 <div class="d-flex">
                     <a href="javascript:void(0);" @onclick='() => NavigateToSection("projects")' class="btn btn-primary mr-3">Meine Projekte</a>
                     <a href="javascript:void(0);" @onclick='() => NavigateToSection("contact")' class="btn btn-outline" style="margin-left: 1rem;">Kontakt</a>
                 </div>
             </div>
             <div class="col-12 col-lg-4 text-center mt-5 mt-lg-0">
-                <div style="position: relative; width: 250px; height: 250px; margin: 0 auto;">
-                    <div style="position: absolute; width: 100%; height: 100%; background-color: var(--primary); border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; opacity: 0.1; transform: rotate(-15deg);"></div>
-                    <div style="position: absolute; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-                        <i class="fas fa-code" style="font-size: 5rem; color: var(--primary);"></i>
-                    </div>
-                </div>
+                <img src="images/logo.svg" alt="logo"/>
             </div>
         </div>
     </div>

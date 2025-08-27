@@ -1,5 +1,4 @@
-﻿@using System.Text.Json.Serialization
-<section id="home" class="hero" xmlns="http://www.w3.org/1999/html">
+﻿<section id="home" class="hero" xmlns="http://www.w3.org/1999/html">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-12 col-lg-8">
@@ -8,8 +7,8 @@
                 <p>ein leidenschaftlicher Software-Entwickler mit einem Fokus auf moderne Web-Anwendungen und native Apps. <br>
                     Mich begeistert es, aus komplexen Herausforderungen elegante und benutzerfreundliche Lösungen zu entwickeln.</p>
                 <div class="d-flex">
-                    <a href="javascript:void(0);" @onclick='() => NavigateToSection("projects")' class="btn btn-primary mr-3">Meine Projekte</a>
-                    <a href="javascript:void(0);" @onclick='() => NavigateToSection("contact")' class="btn btn-outline" style="margin-left: 1rem;">Kontakt</a>
+                    <a href="#projects" class="btn btn-primary mr-3">Meine Projekte</a>
+                    <a href="#contact" class="btn btn-outline" style="margin-left: 1rem;">Kontakt</a>
                 </div>
             </div>
             <div class="col-12 col-lg-4 text-center mt-5 mt-lg-0">
@@ -21,81 +20,5 @@
 
 @code
 {
-    [Inject]
-    public IJSRuntime JsRuntime { get; set; } = null!;
     
-    [Inject]
-    public ILogger<HomeSection> Logger { get; set; } = null!;
-    
-    private string _activeNavLink = "home";
-    
-    // --- State for Navbar ---
-    private bool _isNavbarCollapsed = true;
-    
-    private ElementReference _navbarElement;
-    
-    // --- State for JS Interop ---
-    // Referenz zum geladenen JavaScript-Modul (für Isolation)
-    private IJSObjectReference? _module;
-    private bool _moduleLoaded = false;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            try
-            {
-                _module = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./app.ts");
-                _moduleLoaded = true;
-                StateHasChanged();
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex, "Fehler beim Laden des JS-Moduls.");
-            }
-        }
-        await base.OnAfterRenderAsync(firstRender);
-    }
-    
-    // Wird durch @onclick="() => NavigateToSection(...)" in Home.razor ausgelöst
-    private async Task NavigateToSection(string sectionId)
-    {
-        if (!_isNavbarCollapsed)
-        {
-            _isNavbarCollapsed = true;
-        }
-
-        _activeNavLink = sectionId;
-        StateHasChanged(); // UI sofort aktualisieren
-
-        // Rufen Sie die scrollToSection Funktion INNERHALB des geladenen Moduls auf
-        // Verwenden Sie module. InvokeVoidAsync, NICHT JsRuntime. InvokeVoidAsync global
-        if (_module != null) // Prüfen, ob Modul geladen wurde
-        {
-            var navbarHeight = 0;
-            // Erneut die Höhe holen, idealerweise mit der Funktion aus dem Modul
-            if (_navbarElement.Id != null)
-            {
-                // Rufen Sie die Funktion getElementBoundingClientRect INNERHALB des geladenen Moduls auf
-                var rect = await _module.InvokeAsync<BoundingClientRect>("getElementBoundingClientRect", _navbarElement);
-                navbarHeight = (int)rect.Height;
-            } else {
-                // Fallback-Aufruf, falls ElementReference fehlschlägt
-                navbarHeight = await JsRuntime.InvokeAsync<int>("eval", "document.querySelector('.navbar').offsetHeight");
-            }
-
-            // Rufen Sie die Funktion scrollToSection INNERHALB des geladenen Moduls auf
-            await _module.InvokeVoidAsync("scrollToSection", sectionId, navbarHeight);
-        } else {
-            Logger.LogError("JS-Modul nicht geladen, kann nicht scrollen."); // Optional
-            // Fallback: Standard-Link-Verhalten zulassen oder Fehlermeldung anzeigen
-        }
-    }
-    
-    // --- JS Interop Helper DTO ---
-    public class BoundingClientRect
-    {
-        [JsonPropertyName("height")]
-        public double Height { get; init; }
-    }
 }
